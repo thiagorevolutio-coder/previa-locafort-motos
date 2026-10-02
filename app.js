@@ -14,6 +14,7 @@ const labels = {
   inicio: document.querySelector('#resumoInicio')
 };
 const sendButton = document.querySelector('#enviarPedido');
+const requestPreview = document.querySelector('.request-preview');
 const steps = [...document.querySelectorAll('.step-block')];
 const progress = [...document.querySelectorAll('.planner-progress button')];
 const currentStepLabel = document.querySelector('#etapaAtual');
@@ -34,6 +35,7 @@ function updateRequest() {
   });
   const complete = Object.values(state).every(Boolean);
   sendButton.classList.toggle('disabled', !complete);
+  requestPreview.classList.toggle('ready', complete);
   sendButton.setAttribute('aria-disabled', String(!complete));
   requestTitle.textContent = complete ? 'Sua mensagem está pronta para enviar.' : 'Sua mensagem está sendo montada.';
   if (complete) {
@@ -51,6 +53,9 @@ document.querySelectorAll('.choice').forEach(button => {
     updateRequest();
     const current = steps.findIndex(step => step.contains(button));
     if (current < steps.length - 1) setTimeout(() => showStep(current + 1), 220);
+    if (current === steps.length - 1 && Object.values(state).every(Boolean) && window.matchMedia('(max-width: 620px)').matches) {
+      setTimeout(() => sendButton.scrollIntoView({ behavior: 'smooth', block: 'center' }), 360);
+    }
   });
 });
 
@@ -62,10 +67,31 @@ progress.forEach((button, index) => {
 });
 showStep(0);
 
+function alignHashTarget(behavior = 'auto') {
+  if (!window.location.hash) return;
+  const target = document.getElementById(decodeURIComponent(window.location.hash.slice(1)));
+  if (!target) return;
+  const revealParent = target.closest('.reveal');
+  if (revealParent) revealParent.classList.add('visible', 'hash-target-ready');
+  requestAnimationFrame(() => {
+    const offset = window.matchMedia('(max-width: 620px)').matches ? 18 : 26;
+    const top = Math.max(0, target.getBoundingClientRect().top + window.scrollY - offset);
+    window.scrollTo({ top, behavior });
+    if (revealParent) setTimeout(() => revealParent.classList.remove('hash-target-ready'), 120);
+  });
+}
+
+window.addEventListener('load', () => {
+  const ready = document.fonts?.ready || Promise.resolve();
+  ready.then(() => setTimeout(() => alignHashTarget('auto'), 180));
+});
+window.addEventListener('hashchange', () => setTimeout(() => alignHashTarget('smooth'), 80));
+
 document.querySelectorAll('.fleet-tabs button').forEach(button => {
   button.addEventListener('click', () => {
     document.querySelectorAll('.fleet-tabs button').forEach(item => item.classList.toggle('active', item === button));
     document.querySelectorAll('.bike-card').forEach(card => card.classList.toggle('hidden', button.dataset.filter !== 'todas' && card.dataset.category !== button.dataset.filter));
+    document.querySelector('.fleet-grid').scrollTo({ left: 0, behavior: 'smooth' });
   });
 });
 

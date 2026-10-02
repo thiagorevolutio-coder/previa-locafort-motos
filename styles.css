@@ -34,3 +34,16 @@ footer{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:25px;padding:60px cl
   .whatsapp-float{right:12px;bottom:12px;width:46px;height:46px;padding:10px}
 }
 @media(max-width:360px){.hero h1{font-size:36px}.hero-actions{grid-template-columns:minmax(0,1.15fr) minmax(96px,.85fr)}.hero-actions .button{font-size:7px}.hero-proof strong{font-size:8px}.planner-progress button strong{display:none}.planner-progress button{justify-content:center}.story,.story-wide{min-width:86vw}}
+
+#solicitar-titulo,#motos-titulo,#como-funciona-titulo,#duvidas-titulo{scroll-margin-top:24px}
+.reveal.hash-target-ready{opacity:1!important;transform:none!important;transition:none!important}
+.mobile-swipe-hint{display:none}
+.request-preview.ready .button-primary{animation:readyButton 1.35s ease 2;box-shadow:0 0 0 0 rgba(225,38,47,.5),0 16px 42px rgba(225,38,47,.3)}
+@keyframes readyButton{50%{transform:translateY(-2px);box-shadow:0 0 0 9px rgba(225,38,47,0),0 20px 46px rgba(225,38,47,.48)}}
+@media(max-width:620px){
+  #solicitar-titulo,#motos-titulo,#como-funciona-titulo,#duvidas-titulo{scroll-margin-top:72px}
+  .mobile-swipe-hint{display:flex;align-items:center;gap:8px;margin:-19px 0 14px;color:#929299;font-size:8px;font-weight:800;letter-spacing:.65px;text-transform:uppercase}.mobile-swipe-hint span{display:grid;place-items:center;width:25px;height:25px;border:1px solid #3c3c43;border-radius:50%;color:#ff5159;font-size:12px}
+  .fleet-grid{display:flex;grid-template-columns:none;gap:12px;margin-right:-15px;padding:0 15px 8px 0;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-left:0;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .fleet-grid::-webkit-scrollbar{display:none}.bike-card{flex:0 0 min(82vw,320px);scroll-snap-align:start}.bike-card:hover{transform:none}.bike-image{height:315px}.bike-info{padding:16px}.bike-info h3{font-size:20px}
+  .planner .request-preview.ready{border-top-color:rgba(225,38,47,.75);box-shadow:inset 0 1px 0 rgba(225,38,47,.25)}
+}
