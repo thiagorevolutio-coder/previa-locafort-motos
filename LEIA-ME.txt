@@ -1,0 +1,17 @@
+LOCAFORT MOTOS — PRÉVIA DE SITE E BIO
+
+SITE:
+Abra index.html
+
+BIO:
+Abra bio.html
+
+LINKS APÓS PUBLICAR NO GITHUB PAGES:
+Site: https://thiagorevolutio-coder.github.io/previa-locafort-motos/
+Bio: https://thiagorevolutio-coder.github.io/previa-locafort-motos/bio.html
+
+IMPORTANTE:
+- Disponibilidade, valores, documentos e condições estão descritos como "sob consulta".
+- O site não informa endereço nem mapa porque o negócio ainda não possui perfil no Google Maps.
+- O simulador prepara uma mensagem personalizada e abre o WhatsApp sem usar API.
+- Para publicar, envie os arquivos e a pasta assets para a raiz do repositório.
