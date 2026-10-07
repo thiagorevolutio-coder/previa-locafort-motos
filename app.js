@@ -1,4 +1,4 @@
-const PHONE = '5585989181727';
+let PHONE = '5585989181727';
 const STORAGE_KEY = 'locafort-consulta-v3';
 const waLink = message => `https://wa.me/${PHONE}?text=${encodeURIComponent(message)}`;
 const ROOT_PREFIX = document.body.dataset.rootPrefix || '';
@@ -21,6 +21,16 @@ const catalogReady = (async () => {
 function imagePath(path) { return /^https:\/\//i.test(path) ? path : `${ROOT_PREFIX}${path.replace(/^\/+/, '')}`; }
 function renderCatalog() {
   const conditions = catalog.condicoes;
+  const site = catalog.site || {};
+  const form = catalog.formulario || {};
+  if (/^\d{10,15}$/.test(site.whatsapp || '')) PHONE = site.whatsapp;
+  const setText = (selector, value) => { const element = document.querySelector(selector); if (element && value) element.textContent = value; };
+  const setMedia = (selector, value) => { const element = document.querySelector(selector); if (element && value) element.src = imagePath(value); };
+  setText('#siteHeroTitle', site.tituloPrincipal); setText('#siteHeroText', site.textoPrincipal);
+  setMedia('#siteHeroImage', site.imagemPrincipal); setMedia('#siteProcessImage', site.imagemProcesso); setMedia('#siteFinalImage', site.imagemFinal);
+  setText('#formIntroTitle', form.tituloInicial); setText('#formIntroText', form.textoInicial);
+  const editableSteps = { city: ['cidadeTitulo', 'cidadeAjuda'], age: ['idadeTitulo', 'idadeAjuda'], cnh: ['cnhTitulo', 'cnhAjuda'], incomeProof: ['rendaTitulo', 'rendaAjuda'] };
+  Object.entries(editableSteps).forEach(([id, keys]) => { const step = steps.find(item => item.id === id); if (step) { step.title = form[keys[0]] || step.title; step.help = form[keys[1]] || step.help; } });
   const cards = document.querySelector('#conditionsCards');
   if (cards) cards.innerHTML = `<article><b aria-hidden="true">R$</b><span><small>ALUGUEL</small><strong>${money(conditions.semanalAPartirDe)}</strong><em>por semana, a partir de</em></span></article><article><b aria-hidden="true">🔒</b><span><small>CAUÇÃO</small><strong>${money(conditions.caucao)}</strong></span></article><article><b aria-hidden="true">2ª</b><span><small>COMEÇA A PAGAR</small><strong>Na segunda semana</strong></span></article><article><b aria-hidden="true">📅</b><span><small>CONTRATO INICIAL</small><strong>${conditions.mesesContratoInicial} meses</strong></span></article>`;
   const products = catalog.produtos.filter(product => product.ativo).sort((a, b) => a.ordem - b.ordem);
@@ -33,7 +43,8 @@ function renderCatalog() {
       const img = document.createElement('img'); img.src = imagePath(product.imagem); img.alt = product.nome;
       const copy = document.createElement('span'); const name = document.createElement('strong'); name.textContent = product.nome;
       const price = document.createElement('small'); price.textContent = product.disponivel ? productPrice(product) : 'Indisponível no momento';
-      copy.append(name, price); const arrow = document.createElement('b'); arrow.textContent = product.disponivel ? '→' : '—';
+      const details = document.createElement('small'); details.className = 'product-meta'; details.textContent = [product.cilindrada, product.uso].filter(Boolean).join(' · ');
+      copy.append(name, price); if (details.textContent) copy.append(details); const arrow = document.createElement('b'); arrow.textContent = product.disponivel ? '→' : '—';
       button.append(img, copy, arrow); choices.append(button);
     });
   }
@@ -47,7 +58,7 @@ function renderCatalog() {
       const category = document.createElement('span'); category.textContent = product.categoria.toUpperCase(); image.append(img, category);
       const info = document.createElement('div'); info.className = 'bike-info';
       const text = document.createElement('div'); const description = document.createElement('p'); description.textContent = product.texto;
-      const title = document.createElement('h3'); title.textContent = product.nome; const price = document.createElement('small'); price.textContent = product.disponivel ? productPrice(product) : 'Indisponível no momento'; text.append(description, title, price);
+      const title = document.createElement('h3'); title.textContent = product.nome; const meta = document.createElement('small'); meta.className = 'bike-meta'; meta.textContent = [product.cilindrada, product.uso].filter(Boolean).join(' · '); const price = document.createElement('small'); price.textContent = product.disponivel ? productPrice(product) : 'Indisponível no momento'; text.append(description, title); if (meta.textContent) text.append(meta); text.append(price);
       const button = document.createElement('button'); button.className = 'bike-ask'; button.dataset.productId = product.id; button.disabled = !product.disponivel; button.setAttribute('aria-label', `${product.disponivel ? 'Consultar' : 'Indisponível'} ${product.nome}`); button.textContent = product.disponivel ? '↗' : '—';
       info.append(text, button); card.append(image, info); fleet.append(card);
     });
@@ -227,8 +238,9 @@ function renderResult() {
     body.innerHTML = `<p class="result-message">${data.result.message.split('.')[0]}.</p><details class="simple-details result-details"><summary>Entenda melhor</summary><div><p>${data.result.message}</p><p>Você pode fazer uma nova consulta quando essa condição mudar.</p></div></details>`;
     focusSoon('#resultRestart'); return;
   }
-  kicker.textContent = 'Condições iniciais atendidas'; title.textContent = 'Sua consulta está pronta para análise.';
-  body.innerHTML = `<p class="result-message">Agora, envie seu resumo pelo WhatsApp.</p><details class="simple-details result-details"><summary>Ver documentos</summary><div><ul class="document-list"><li>CNH digital</li><li>3 comprovantes do endereço atual do mesmo tipo</li><li>${incomeDocument()}</li><li>Acesso à sua conta Gov.br</li></ul><p>Nunca envie senha ou código.</p></div></details><details class="simple-details result-details"><summary>Entenda a análise</summary><p>Esta consulta não garante aprovação. O responsável confere os documentos e dá a decisão final.</p></details>`;
+  const form = catalog.formulario || {};
+  kicker.textContent = 'Condições iniciais atendidas'; title.textContent = form.tituloAprovado || 'Sua consulta está pronta para análise.';
+  body.innerHTML = `<p class="result-message">Agora, envie seu resumo pelo WhatsApp.</p><details class="simple-details result-details"><summary>Ver documentos</summary><div><ul class="document-list"><li>${form.documentoCnh || 'CNH digital'}</li><li>${form.documentoEndereco || '3 comprovantes do endereço atual do mesmo tipo'}</li><li>${incomeDocument()}</li><li>${form.documentoGov || 'Acesso à sua conta Gov.br'}</li></ul><p>Nunca envie senha ou código.</p></div></details><details class="simple-details result-details"><summary>Entenda a análise</summary><p>${form.avisoAnalise || 'Esta consulta não garante aprovação. O responsável confere os documentos e dá a decisão final.'}</p></details>`;
   const a = data.answers;
   const relationship = a.relationship ? ` (${a.relationship})` : '';
   const message = ['Olá! Concluí a consulta de locação no site da Locafort.', '', `Nome: ${a.name}`, 'Cidade: Fortaleza', `Idade: ${a.age}`, 'CNH: definitiva', `E-mail: ${a.email}`, `Telefone: ${a.phone}`, `Moto escolhida: ${a.model}`, `Valor informado: ${a.modelPrice}`, `Intenção declarada: ${a.intent}`, `Explicação recebida: ${intentExplanation()}`, `Finalidade: ${a.purpose}`, `Fonte de renda: ${a.incomeSource}`, `Renda mensal declarada: R$ ${a.income.replace(/\D/g, '')}`, `Comprovantes de renda: sim — ${incomeDocument()}`, `Comprovantes de endereço: ${a.addressDocs}${relationship}`, `Previsão de início: ${a.start}`, `Como conheceu: ${a.source}`, '', 'Documentos orientados: CNH digital; 3 comprovantes do endereço atual do mesmo tipo; comprovantes de renda conforme a categoria; acesso à própria conta Gov.br.', 'Entendi que a consulta não garante aprovação final e que não devo enviar senha ou código do Gov.br.'].join('\n');

@@ -42,13 +42,13 @@
   <main id="conteudo">
     <section class="hero">
       <div class="hero-media" aria-hidden="true">
-        <img src="assets/frota-locafort.jpeg" alt="">
+        <img id="siteHeroImage" src="assets/frota-locafort.jpeg" alt="">
       </div>
       <div class="hero-shade"></div>
       <div class="hero-content reveal">
         <p class="eyebrow"><span></span> Mobilidade para sua rotina</p>
-        <h1>Aluguel de moto <small>em Fortaleza</small></h1>
-        <p class="hero-text">Escolha uma moto para trabalhar ou se deslocar com mais liberdade. Consulte modelos, condições e disponibilidade direto com a equipe.</p>
+        <h1 id="siteHeroTitle">Aluguel de moto <small>em Fortaleza</small></h1>
+        <p class="hero-text" id="siteHeroText">Escolha uma moto para trabalhar ou se deslocar com mais liberdade. Consulte modelos, condições e disponibilidade direto com a equipe.</p>
         <div class="hero-actions">
           <a class="button button-primary" data-open-simulator href="#simular-locacao">Ver se posso alugar <span>→</span></a>
           <a class="button button-ghost" href="#motos-titulo">Ver motos</a>
@@ -110,7 +110,7 @@
 
     <section class="process section" id="como-funciona">
       <div class="process-photo reveal">
-        <img src="assets/cliente-retirada-1.jpeg" alt="Cliente recebendo uma moto na Locafort" loading="lazy">
+        <img id="siteProcessImage" src="assets/cliente-retirada-1.jpeg" alt="Cliente recebendo uma moto na Locafort" loading="lazy">
         <div class="photo-tag"><strong>Do contato à retirada</strong><span>Atendimento claro em cada etapa</span></div>
       </div>
       <div class="process-content reveal" id="como-funciona-titulo">
@@ -153,7 +153,7 @@
     </section>
 
     <section class="final-cta">
-      <img src="assets/frota-locafort.jpeg" alt="Frota da Locafort Motos" loading="lazy">
+      <img id="siteFinalImage" src="assets/frota-locafort.jpeg" alt="Frota da Locafort Motos" loading="lazy">
       <div class="final-shade"></div>
       <div class="final-content reveal">
         <p class="eyebrow"><span></span> Sua próxima rota começa aqui</p>
@@ -192,8 +192,8 @@
       <div class="simulator-content">
         <div class="simulator-step active" id="simulatorIntro">
           <p class="simulator-kicker">Leva cerca de 2 minutos</p>
-          <h3>Vamos começar?</h3>
-          <p class="simulator-lead">Uma pergunta por vez.</p>
+          <h3 id="formIntroTitle">Vamos começar?</h3>
+          <p class="simulator-lead" id="formIntroText">Uma pergunta por vez.</p>
           <details class="simple-details"><summary>Entenda melhor</summary><div><p>O WhatsApp aparece no final, se as condições forem atendidas.</p><p>Não envie documentos aqui. A análise final é feita pelo responsável.</p></div></details>
           <button class="button button-primary simulator-start" id="simulatorStart" type="button">Começar agora <span>→</span></button>
         </div>

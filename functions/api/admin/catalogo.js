@@ -11,7 +11,8 @@ export async function onRequestPost({ env, request }) {
   try {
     const value = await readJson(request);
     if (!validateCatalog(value)) return json({ erro: 'Revise os campos do catálogo.' }, 422);
-    value.versao = Date.now();
+    value.versao = 2;
+    value.atualizadoEm = new Date().toISOString();
     await env.LOCAFORT_CONFIG.put('catalogo', JSON.stringify(value));
     return json({ ok: true, catalogo: value });
   } catch (error) { return json({ erro: error.message === 'SIZE' ? 'Arquivo muito grande.' : 'Requisição inválida.' }, 400); }

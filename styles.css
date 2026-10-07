@@ -159,3 +159,4 @@ body.simulator-open{overflow:hidden}.simulator-modal{position:fixed;z-index:1000
   .question-details{margin:-1px 0 11px}
 }
 
+.product-meta,.bike-meta{color:#85858d!important;font-size:10px!important;line-height:1.35}.bike-info>div{display:grid;gap:3px}

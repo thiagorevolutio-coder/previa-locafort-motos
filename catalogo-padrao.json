@@ -1,5 +1,31 @@
 {
-  "versao": 1,
+  "versao": 2,
+  "site": {
+    "whatsapp": "5585989181727",
+    "tituloPrincipal": "Aluguel de moto em Fortaleza",
+    "textoPrincipal": "Escolha uma moto para trabalhar ou se deslocar com mais liberdade.",
+    "imagemPrincipal": "assets/frota-locafort.jpeg",
+    "imagemProcesso": "assets/cliente-retirada-1.jpeg",
+    "imagemFinal": "assets/frota-locafort.jpeg",
+    "videoPrincipal": "assets/apresentacao-locafort.mp4"
+  },
+  "formulario": {
+    "tituloInicial": "Vamos começar?",
+    "textoInicial": "Uma pergunta por vez.",
+    "cidadeTitulo": "Você mora em Fortaleza?",
+    "cidadeAjuda": "A locação atende somente quem mora em Fortaleza.",
+    "idadeTitulo": "Tem 25 anos ou mais?",
+    "idadeAjuda": "É preciso ter pelo menos 25 anos.",
+    "cnhTitulo": "Sua CNH já é definitiva?",
+    "cnhAjuda": "É a carteira recebida depois da provisória.",
+    "rendaTitulo": "Você tem comprovantes de renda?",
+    "rendaAjuda": "Não há renda mínima. Você só precisa conseguir comprovar.",
+    "documentoCnh": "CNH digital",
+    "documentoEndereco": "3 comprovantes do endereço atual do mesmo tipo",
+    "documentoGov": "Acesso à sua conta Gov.br",
+    "tituloAprovado": "Sua consulta está pronta para análise.",
+    "avisoAnalise": "Esta consulta não garante aprovação. O responsável confere os documentos e dá a decisão final."
+  },
   "condicoes": {
     "semanalAPartirDe": 300,
     "caucao": 900,
@@ -18,6 +44,8 @@
       "precoSemanal": 300,
       "imagem": "assets/moto-vermelha.jpeg",
       "texto": "Agilidade para o dia a dia",
+      "cilindrada": "160 cc",
+      "uso": "Trabalho e uso particular",
       "disponivel": true,
       "ativo": true,
       "ordem": 1
@@ -30,6 +58,8 @@
       "precoSemanal": null,
       "imagem": "assets/pcx-preta.jpeg",
       "texto": "Praticidade para se deslocar",
+      "cilindrada": "160 cc",
+      "uso": "Uso particular e cidade",
       "disponivel": true,
       "ativo": true,
       "ordem": 2
