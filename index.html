@@ -24,7 +24,7 @@
   }
   </script>
 </head>
-<body>
+<body data-root-prefix="">
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
   <header class="site-header" id="topo">
     <a class="brand" href="#topo" aria-label="Locafort Motos - início">
@@ -36,7 +36,7 @@
       <a href="#como-funciona-titulo">Como funciona</a>
       <a href="#duvidas-titulo">Dúvidas</a>
     </nav>
-    <a class="header-cta" data-wa="Olá! Vim pelo site da Locafort e quero consultar as motos disponíveis." href="https://wa.me/5585989181727">Consultar agora</a>
+    <a class="header-cta" data-open-simulator href="#simular-locacao">Ver se posso alugar</a>
   </header>
 
   <main id="conteudo">
@@ -50,12 +50,12 @@
         <h1>Aluguel de moto <small>em Fortaleza</small></h1>
         <p class="hero-text">Escolha uma moto para trabalhar ou se deslocar com mais liberdade. Consulte modelos, condições e disponibilidade direto com a equipe.</p>
         <div class="hero-actions">
-          <a class="button button-primary" href="#solicitar-titulo">Encontrar minha moto <span>→</span></a>
+          <a class="button button-primary" data-open-simulator href="#simular-locacao">Ver se posso alugar <span>→</span></a>
           <a class="button button-ghost" href="#motos-titulo">Ver motos</a>
         </div>
         <div class="hero-proof">
           <span class="proof-icon">✓</span>
-          <p><strong>Atendimento direto</strong><small>Resposta pelo WhatsApp</small></p>
+          <p><strong>Consulta rápida</strong><small>Leva cerca de 2 minutos</small></p>
           <span class="proof-line"></span>
           <p><strong>Fotos reais</strong><small>Conheça parte da frota</small></p>
         </div>
@@ -70,64 +70,13 @@
       <p><span>●</span> Locação para sua rotina</p>
     </section>
 
-    <section class="planner section" id="solicitar">
-      <div class="section-heading reveal" id="solicitar-titulo">
+    <section class="simulator-invite section" id="solicitar">
+      <div class="simulator-invite-copy reveal" id="solicitar-titulo">
         <p class="eyebrow"><span></span> Assistente Locafort</p>
-        <h2>Sua busca vira uma mensagem pronta.</h2>
-        <p>Três escolhas rápidas. O assistente organiza tudo para você consultar a Locafort sem preencher formulários longos.</p>
+        <h2>Veja se você atende aos requisitos.</h2>
+        <p>Responda uma pergunta por vez. Se estiver tudo certo, o WhatsApp aparece no final com sua solicitação organizada.</p>
       </div>
-      <div class="planner-shell reveal">
-        <div class="tech-status">
-          <div class="tech-brand"><span class="tech-pulse"></span><strong>LOCAFORT MATCH</strong><small>ASSISTENTE DE LOCAÇÃO</small></div>
-          <div class="tech-meta"><span>3 ETAPAS</span><span>DIRETO NO WHATSAPP</span><b>ONLINE</b></div>
-        </div>
-        <div class="planner-progress" aria-label="Progresso da solicitação">
-          <button class="active" data-progress-step="0"><span>01</span><strong>Objetivo</strong><i></i></button>
-          <button data-progress-step="1"><span>02</span><strong>Modelo</strong><i></i></button>
-          <button data-progress-step="2"><span>03</span><strong>Início</strong><i></i></button>
-        </div>
-        <div class="planner-grid">
-        <div class="planner-card reveal">
-          <div class="console-title"><span id="etapaAtual">ETAPA 01 / 03</span><small>SELECIONE UMA OPÇÃO</small></div>
-          <div class="step-block active" data-step="1">
-            <div class="step-top"><span>01</span><div><small>COMECE POR AQUI</small><p>Qual é seu objetivo?</p></div></div>
-            <div class="choice-grid" role="group" aria-label="Objetivo da locação">
-              <button class="choice" data-field="objetivo" data-value="trabalhar com aplicativos"><b>01A</b><span>Trabalhar com apps</span><i>↗</i></button>
-              <button class="choice" data-field="objetivo" data-value="usar na rotina e nos deslocamentos"><b>01B</b><span>Rotina e deslocamento</span><i>↗</i></button>
-              <button class="choice" data-field="objetivo" data-value="conhecer as opções de locação"><b>01C</b><span>Conhecer as opções</span><i>↗</i></button>
-            </div>
-          </div>
-          <div class="step-block" data-step="2">
-            <div class="step-top"><span>02</span><div><small>PERFIL DA MOTO</small><p>Qual modelo mais combina?</p></div></div>
-            <div class="choice-grid" role="group" aria-label="Tipo de moto">
-              <button class="choice" data-field="moto" data-value="uma Honda 160"><b>02A</b><span>Honda 160</span><i>↗</i></button>
-              <button class="choice" data-field="moto" data-value="uma Honda PCX"><b>02B</b><span>Honda PCX</span><i>↗</i></button>
-              <button class="choice" data-field="moto" data-value="ajuda para escolher o melhor modelo"><b>02C</b><span>Quero uma indicação</span><i>↗</i></button>
-            </div>
-          </div>
-          <div class="step-block" data-step="3">
-            <div class="step-top"><span>03</span><div><small>PREVISÃO DE INÍCIO</small><p>Quando pretende começar?</p></div></div>
-            <div class="choice-grid compact" role="group" aria-label="Previsão de início">
-              <button class="choice" data-field="inicio" data-value="o quanto antes"><b>03A</b><span>O quanto antes</span><i>↗</i></button>
-              <button class="choice" data-field="inicio" data-value="ainda esta semana"><b>03B</b><span>Esta semana</span><i>↗</i></button>
-              <button class="choice" data-field="inicio" data-value="estou pesquisando por enquanto"><b>03C</b><span>Estou pesquisando</span><i>↗</i></button>
-            </div>
-          </div>
-        </div>
-        <aside class="request-preview reveal">
-          <div class="request-visual"><img src="assets/moto-preta.jpeg" alt=""><span><i></i> PRÉVIA EM TEMPO REAL</span></div>
-          <p class="request-label">MATCH DA SUA ROTINA</p>
-          <h3>Sua mensagem está sendo montada.</h3>
-          <div class="request-summary" aria-live="polite">
-            <p><span><b>01</b> Objetivo</span><strong id="resumoObjetivo">Aguardando escolha</strong></p>
-            <p><span><b>02</b> Modelo</span><strong id="resumoMoto">Aguardando escolha</strong></p>
-            <p><span><b>03</b> Quando</span><strong id="resumoInicio">Aguardando escolha</strong></p>
-          </div>
-          <a class="button button-primary disabled" id="enviarPedido" href="https://wa.me/5585989181727" aria-disabled="true">Enviar pelo WhatsApp <span>↗</span></a>
-          <small><span class="lock-dot">●</span> A mensagem só será enviada quando você tocar no botão.</small>
-        </aside>
-        </div>
-      </div>
+      <button class="button button-primary simulator-invite-button reveal" data-open-simulator type="button">Ver se posso alugar <span>→</span></button>
     </section>
 
     <section class="fleet section" id="motos">
@@ -142,7 +91,7 @@
         <button data-filter="scooter">Scooter</button>
       </div>
       <p class="mobile-swipe-hint"><span>↔</span> Arraste para o lado e veja as motos</p>
-      <div class="fleet-grid">
+      <div class="fleet-grid" id="catalogFleet">
         <article class="bike-card reveal" data-category="street">
           <div class="bike-image"><img src="assets/moto-vermelha.jpeg" alt="Moto Honda 160 vermelha da Locafort" loading="lazy"><span>STREET</span></div>
           <div class="bike-info"><div><p>Agilidade para o dia a dia</p><h3>Honda 160</h3></div><button class="bike-ask" data-moto="Honda 160 vermelha" aria-label="Consultar Honda 160 vermelha">↗</button></div>
@@ -156,7 +105,7 @@
           <div class="bike-info"><div><p>Praticidade para se deslocar</p><h3>Honda PCX</h3></div><button class="bike-ask" data-moto="Honda PCX preta" aria-label="Consultar Honda PCX preta">↗</button></div>
         </article>
       </div>
-      <a class="text-link reveal" data-wa="Olá! Vim pelo site e quero saber quais motos estão disponíveis hoje." href="https://wa.me/5585989181727">Consultar todas as opções <span>→</span></a>
+      <a class="text-link reveal" data-open-simulator href="#simular-locacao">Ver se posso alugar <span>→</span></a>
     </section>
 
     <section class="process section" id="como-funciona">
@@ -168,12 +117,12 @@
         <p class="eyebrow dark"><span></span> Como funciona</p>
         <h2>Você escolhe. A equipe orienta o próximo passo.</h2>
         <ol class="process-list">
-          <li><span>01</span><div><h3>Conte o que precisa</h3><p>Informe seu objetivo, o modelo de interesse e quando deseja começar.</p></div></li>
-          <li><span>02</span><div><h3>Confira as condições</h3><p>A equipe apresenta disponibilidade, valores, documentos e regras da locação.</p></div></li>
+          <li><span>01</span><div><h3>Faça a consulta de locação</h3><p>Responda perguntas simples sobre os requisitos e sua necessidade.</p></div></li>
+          <li><span>02</span><div><h3>Separe os documentos</h3><p>Se atender aos requisitos, confira a lista indicada para sua situação.</p></div></li>
           <li><span>03</span><div><h3>Combine a retirada</h3><p>Após a confirmação, alinhe os detalhes diretamente pelo WhatsApp.</p></div></li>
           <li><span>04</span><div><h3>Saia de moto</h3><p>Retire o modelo combinado e coloque seus planos em movimento.</p></div></li>
         </ol>
-        <a class="button button-dark" data-wa="Olá! Quero entender como funciona a locação de motos da Locafort." href="https://wa.me/5585989181727">Entender a locação <span>→</span></a>
+        <a class="button button-dark" data-open-simulator href="#simular-locacao">Começar consulta <span>→</span></a>
       </div>
     </section>
 
@@ -195,9 +144,10 @@
         <h2>Antes de escolher sua moto.</h2>
       </div>
       <div class="faq-list reveal">
-        <details><summary>Quais documentos são necessários?<span>+</span></summary><p>Os requisitos podem variar conforme a locação. A equipe confirma a lista atualizada durante o atendimento.</p></details>
+        <details><summary>Quais documentos são necessários?<span>+</span></summary><p>Após atender aos requisitos, você recebe a lista conforme sua fonte de renda. A análise costuma incluir CNH digital, três comprovantes do endereço atual do mesmo tipo e comprovantes de renda.</p></details>
         <details><summary>Tem moto disponível para retirada?<span>+</span></summary><p>A disponibilidade muda ao longo do dia. Consulte pelo WhatsApp para saber quais modelos estão livres no momento.</p></details>
-        <details><summary>Quanto custa o aluguel?<span>+</span></summary><p>Valores e condições são apresentados de acordo com o modelo e o período desejado. Monte sua solicitação para receber uma orientação mais rápida.</p></details>
+        <details><summary>Quanto custa o aluguel?<span>+</span></summary><p id="faqPricing">Carregando as condições atuais…</p></details>
+        <details><summary>Posso pensar em ficar com a moto depois?<span>+</span></summary><p id="faqIntent">Carregando as condições atuais…</p></details>
         <details><summary>Posso alugar para trabalhar com aplicativos?<span>+</span></summary><p>Conte à equipe como pretende usar a moto. Assim, você recebe informações sobre os modelos e condições disponíveis para sua necessidade.</p></details>
       </div>
     </section>
@@ -209,7 +159,7 @@
         <p class="eyebrow"><span></span> Sua próxima rota começa aqui</p>
         <h2>Pronto para colocar seus planos em movimento?</h2>
         <p>Fale com a Locafort e consulte as motos disponíveis em Fortaleza.</p>
-        <a class="button button-primary" data-wa="Olá! Quero consultar uma moto disponível na Locafort." href="https://wa.me/5585989181727">Chamar no WhatsApp <span>↗</span></a>
+        <a class="button button-primary" data-open-simulator href="#simular-locacao">Ver se posso alugar <span>→</span></a>
       </div>
     </section>
   </main>
@@ -220,11 +170,87 @@
       <p>Locadora de motos em Fortaleza — CE.</p>
     </div>
     <div class="footer-links"><a href="#motos-titulo">Motos</a><a href="#como-funciona-titulo">Como funciona</a><a href="#duvidas-titulo">Dúvidas</a><a href="bio.html">Bio</a></div>
-    <div class="footer-social"><a href="https://www.instagram.com/locafortmotos/" target="_blank" rel="noopener">Instagram ↗</a><a data-wa="Olá! Vim pelo site da Locafort." href="https://wa.me/5585989181727">WhatsApp ↗</a></div>
+    <div class="footer-social"><a href="https://www.instagram.com/locafortmotos/" target="_blank" rel="noopener">Instagram ↗</a><a data-open-simulator href="#simular-locacao">Consulta de locação →</a></div>
     <p class="copyright">© <span id="ano"></span> Locafort Motos. Prévia demonstrativa.</p>
   </footer>
 
-  <a class="whatsapp-float" data-wa="Olá! Vim pelo site da Locafort e quero consultar uma moto." href="https://wa.me/5585989181727" aria-label="Falar com a Locafort pelo WhatsApp"><span>◔</span><b>WhatsApp</b></a>
+  <div class="floating-actions" aria-label="Ações rápidas">
+    <button class="simulator-float" data-open-simulator type="button"><span>✓</span><b>Ver se posso alugar</b></button>
+  </div>
+
+  <div class="simulator-modal" id="simular-locacao" aria-hidden="true">
+    <button class="simulator-backdrop" data-close-simulator type="button" tabindex="-1" aria-label="Fechar consulta"></button>
+    <section class="simulator-dialog" role="dialog" aria-modal="true" aria-labelledby="simuladorTitulo">
+      <header class="simulator-header">
+        <div><small>CONSULTA DE LOCAÇÃO</small><strong id="simuladorTitulo">Ver se posso alugar</strong></div>
+        <button class="simulator-close" data-close-simulator type="button" aria-label="Fechar consulta">×</button>
+      </header>
+      <div class="simulator-progress" aria-label="Progresso da consulta de locação">
+        <span id="simulatorProgressBar"></span>
+        <small id="simulatorStepLabel">Introdução</small>
+      </div>
+      <div class="simulator-content">
+        <div class="simulator-step active" id="simulatorIntro">
+          <p class="simulator-kicker">Leva cerca de 2 minutos</p>
+          <h3>Vamos começar?</h3>
+          <p class="simulator-lead">Uma pergunta por vez.</p>
+          <details class="simple-details"><summary>Entenda melhor</summary><div><p>O WhatsApp aparece no final, se as condições forem atendidas.</p><p>Não envie documentos aqui. A análise final é feita pelo responsável.</p></div></details>
+          <button class="button button-primary simulator-start" id="simulatorStart" type="button">Começar agora <span>→</span></button>
+        </div>
+        <div class="simulator-step" id="simulatorPayment">
+          <p class="simulator-kicker">Condições da locação</p>
+          <h3>Veja os valores</h3>
+          <button class="question-listen" id="paymentListen" type="button" hidden>🔊 Ouvir explicação</button>
+          <div class="payment-cards" id="conditionsCards">
+          </div>
+          <button class="button button-primary payment-continue" id="paymentContinue" type="button">Quero continuar <span>→</span></button>
+        </div>
+        <div class="simulator-step" id="simulatorModel">
+          <p class="simulator-kicker">Escolha a moto</p>
+          <h3>Qual moto combina com você?</h3>
+          <div class="model-options" id="catalogModelOptions"></div>
+        </div>
+        <div class="simulator-step" id="simulatorIntent">
+          <p class="simulator-kicker">Pensando mais adiante</p>
+          <h3>Hoje você pensa em:</h3>
+          <div class="simulator-options intent-options"><button type="button" data-intent="Aluguel"><b class="option-icon">↻</b><span>Aluguel</span><small>Contrato inicial de 6 meses.</small></button><button type="button" data-intent="Contrato com intenção de compra"><b class="option-icon">★</b><span>Contrato com intenção de compra</span><small>Pode começar depois dos 6 meses iniciais.</small></button></div>
+        </div>
+        <div class="simulator-step" id="simulatorIntentInfo">
+          <p class="simulator-kicker">Como funciona depois</p>
+          <h3 id="intentInfoTitle"></h3>
+          <button class="question-listen" id="intentListen" type="button" hidden>🔊 Ouvir explicação</button>
+          <div class="intent-explanation" id="intentInfoBody"></div>
+          <button class="button button-primary payment-continue" id="intentContinue" type="button">Entendi, continuar <span>→</span></button>
+        </div>
+        <div class="simulator-step" id="simulatorQuestion">
+          <p class="simulator-kicker" id="questionKicker"></p>
+          <h3 id="questionTitle"></h3>
+          <button class="question-listen" id="questionListen" type="button" hidden>🔊 Ouvir pergunta</button>
+          <details class="simple-details question-details" id="questionDetails" hidden><summary>Entenda melhor</summary><p id="questionHelp"></p></details>
+          <div class="simulator-options" id="questionOptions" role="group"></div>
+          <form class="simulator-field" id="questionForm" hidden novalidate>
+            <label id="questionLabel" for="questionInput"></label>
+            <input id="questionInput" autocomplete="off">
+            <small id="questionHint"></small>
+            <p class="simulator-error" id="questionError" role="alert" hidden></p>
+            <button class="button button-primary" type="submit">Continuar <span>→</span></button>
+          </form>
+        </div>
+        <div class="simulator-result" id="simulatorResult" aria-live="polite">
+          <p class="simulator-kicker" id="resultKicker"></p>
+          <h3 id="resultTitle"></h3>
+          <div id="resultBody"></div>
+          <a class="button button-whatsapp" id="enviarPedido" href="#" hidden>Enviar para análise no WhatsApp <span>↗</span></a>
+          <button class="button simulator-restart-result" id="resultRestart" type="button">Reiniciar consulta</button>
+        </div>
+      </div>
+      <footer class="simulator-controls">
+        <button id="simulatorBack" type="button">← Voltar</button>
+        <button id="simulatorRestart" type="button">Reiniciar</button>
+        <span>Progresso salvo nesta aba.</span>
+      </footer>
+    </section>
+  </div>
   <script src="app.js"></script>
 </body>
 </html>

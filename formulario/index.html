@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#0b0b0e">
+  <meta name="robots" content="index,follow">
+  <title>Consulta para aluguel de moto | Locafort Motos</title>
+  <meta name="description" content="Veja se pode alugar uma moto na Locafort em Fortaleza.">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230b0b0d'/%3E%3Cpath d='M10 38h9l6-12h13l7 12h9' fill='none' stroke='%23e1262f' stroke-width='6'/%3E%3C/svg%3E">
+</head>
+<body class="qualification-page" data-auto-open-simulator data-root-prefix="../">
+  <main class="qualification-background" aria-hidden="true"></main>
+  <div class="simulator-modal" id="simular-locacao" aria-hidden="true">
+    <button class="simulator-backdrop" data-close-simulator type="button" tabindex="-1" aria-label="Voltar ao site da Locafort"></button>
+    <section class="simulator-dialog" role="dialog" aria-modal="true" aria-labelledby="simuladorTitulo">
+      <header class="simulator-header">
+        <div><small>CONSULTA DE LOCAÇÃO</small><strong id="simuladorTitulo">Ver se posso alugar</strong></div>
+        <button class="simulator-close" data-close-simulator type="button" aria-label="Voltar ao site da Locafort">×</button>
+      </header>
+      <div class="simulator-progress" aria-label="Progresso da consulta de locação">
+        <span id="simulatorProgressBar"></span>
+        <small id="simulatorStepLabel">Introdução</small>
+      </div>
+      <div class="simulator-content">
+        <div class="simulator-step active" id="simulatorIntro">
+          <p class="simulator-kicker">Leva cerca de 2 minutos</p>
+          <h3>Vamos começar?</h3>
+          <p class="simulator-lead">Uma pergunta por vez.</p>
+          <details class="simple-details"><summary>Entenda melhor</summary><div><p>O WhatsApp aparece no final, se as condições forem atendidas.</p><p>Não envie documentos aqui. A análise final é feita pelo responsável.</p></div></details>
+          <button class="button button-primary simulator-start" id="simulatorStart" type="button">Começar agora <span>→</span></button>
+        </div>
+        <div class="simulator-step" id="simulatorPayment">
+          <p class="simulator-kicker">Condições da locação</p>
+          <h3>Veja os valores</h3>
+          <button class="question-listen" id="paymentListen" type="button" hidden>🔊 Ouvir explicação</button>
+          <div class="payment-cards" id="conditionsCards">
+          </div>
+          <button class="button button-primary payment-continue" id="paymentContinue" type="button">Quero continuar <span>→</span></button>
+        </div>
+        <div class="simulator-step" id="simulatorModel">
+          <p class="simulator-kicker">Escolha a moto</p>
+          <h3>Qual moto combina com você?</h3>
+          <div class="model-options" id="catalogModelOptions"></div>
+        </div>
+        <div class="simulator-step" id="simulatorIntent">
+          <p class="simulator-kicker">Pensando mais adiante</p>
+          <h3>Hoje você pensa em:</h3>
+          <div class="simulator-options intent-options"><button type="button" data-intent="Aluguel"><b class="option-icon">↻</b><span>Aluguel</span><small>Contrato inicial de 6 meses.</small></button><button type="button" data-intent="Contrato com intenção de compra"><b class="option-icon">★</b><span>Contrato com intenção de compra</span><small>Pode começar depois dos 6 meses iniciais.</small></button></div>
+        </div>
+        <div class="simulator-step" id="simulatorIntentInfo">
+          <p class="simulator-kicker">Como funciona depois</p>
+          <h3 id="intentInfoTitle"></h3>
+          <button class="question-listen" id="intentListen" type="button" hidden>🔊 Ouvir explicação</button>
+          <div class="intent-explanation" id="intentInfoBody"></div>
+          <button class="button button-primary payment-continue" id="intentContinue" type="button">Entendi, continuar <span>→</span></button>
+        </div>
+        <div class="simulator-step" id="simulatorQuestion">
+          <p class="simulator-kicker" id="questionKicker"></p>
+          <h3 id="questionTitle"></h3>
+          <button class="question-listen" id="questionListen" type="button" hidden>🔊 Ouvir pergunta</button>
+          <details class="simple-details question-details" id="questionDetails" hidden><summary>Entenda melhor</summary><p id="questionHelp"></p></details>
+          <div class="simulator-options" id="questionOptions" role="group"></div>
+          <form class="simulator-field" id="questionForm" hidden novalidate>
+            <label id="questionLabel" for="questionInput"></label>
+            <input id="questionInput" autocomplete="off">
+            <small id="questionHint"></small>
+            <p class="simulator-error" id="questionError" role="alert" hidden></p>
+            <button class="button button-primary" type="submit">Continuar <span>→</span></button>
+          </form>
+        </div>
+        <div class="simulator-result" id="simulatorResult" aria-live="polite">
+          <p class="simulator-kicker" id="resultKicker"></p>
+          <h3 id="resultTitle"></h3>
+          <div id="resultBody"></div>
+          <a class="button button-whatsapp" id="enviarPedido" href="#" hidden>Enviar para análise no WhatsApp <span>↗</span></a>
+          <button class="button simulator-restart-result" id="resultRestart" type="button">Reiniciar consulta</button>
+        </div>
+      </div>
+      <footer class="simulator-controls">
+        <button id="simulatorBack" type="button">← Voltar</button>
+        <button id="simulatorRestart" type="button">Reiniciar</button>
+        <span>Progresso salvo nesta aba.</span>
+      </footer>
+    </section>
+  </div>
+  <script src="../app.js"></script>
+</body>
+</html>

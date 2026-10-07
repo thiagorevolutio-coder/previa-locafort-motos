@@ -1,0 +1,38 @@
+{
+  "versao": 1,
+  "condicoes": {
+    "semanalAPartirDe": 300,
+    "caucao": 900,
+    "mesesContratoInicial": 6,
+    "pagamentoSemanalInicio": "a partir da segunda semana",
+    "intencaoCompraSemanal": 370,
+    "intencaoCompraMeses": 36,
+    "textoCurto": "Condições sujeitas à análise e disponibilidade."
+  },
+  "produtos": [
+    {
+      "id": "honda-160",
+      "nome": "Honda 160",
+      "categoria": "street",
+      "precoTipo": "a-partir-de",
+      "precoSemanal": 300,
+      "imagem": "assets/moto-vermelha.jpeg",
+      "texto": "Agilidade para o dia a dia",
+      "disponivel": true,
+      "ativo": true,
+      "ordem": 1
+    },
+    {
+      "id": "honda-pcx",
+      "nome": "Honda PCX",
+      "categoria": "scooter",
+      "precoTipo": "sob-consulta",
+      "precoSemanal": null,
+      "imagem": "assets/pcx-preta.jpeg",
+      "texto": "Praticidade para se deslocar",
+      "disponivel": true,
+      "ativo": true,
+      "ordem": 2
+    }
+  ]
+}

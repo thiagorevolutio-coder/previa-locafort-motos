@@ -6,12 +6,20 @@ Abra index.html
 BIO:
 Abra bio.html
 
+CONSULTA DE LOCAÇÃO DIRETA:
+Abra formulario/index.html
+
+CENTRAL DO CATÁLOGO:
+Abra painel/index.html. No computador local, funciona em modo demonstração e salva somente neste navegador. Leia CONFIGURAR-CENTRAL.md para configurar Cloudflare Pages + KV.
+
 LINKS APÓS PUBLICAR NO GITHUB PAGES:
 Site: https://thiagorevolutio-coder.github.io/previa-locafort-motos/
 Bio: https://thiagorevolutio-coder.github.io/previa-locafort-motos/bio.html
+Consulta de locação: https://thiagorevolutio-coder.github.io/previa-locafort-motos/formulario/
 
 IMPORTANTE:
 - Disponibilidade, valores, documentos e condições estão descritos como "sob consulta".
 - O site não informa endereço nem mapa porque o negócio ainda não possui perfil no Google Maps.
-- O simulador prepara uma mensagem personalizada e abre o WhatsApp sem usar API.
-- Para publicar, envie os arquivos e a pasta assets para a raiz do repositório.
+- A consulta prepara uma mensagem personalizada e só exibe o WhatsApp após os requisitos.
+- A home e a consulta usam o mesmo catálogo; sem a API, carregam catalogo-padrao.json.
+- Para publicar no Cloudflare Pages, envie também functions, painel e catalogo-padrao.json e siga CONFIGURAR-CENTRAL.md.

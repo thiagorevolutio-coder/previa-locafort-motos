@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Central do catálogo | Locafort</title>
+  <meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="painel.css"><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230b0b0d'/%3E%3Cpath d='M10 38h9l6-12h13l7 12h9' fill='none' stroke='%23e1262f' stroke-width='6'/%3E%3C/svg%3E">
+</head>
+<body>
+  <header><div><span>LOCAFORT</span><h1>Central do catálogo</h1><p>Atualize condições, motos e valores em um só lugar.</p></div><button id="logout" class="quiet" hidden>Sair</button></header>
+  <main>
+    <section id="demoNotice" class="notice" hidden><strong>Modo demonstração</strong><span>Somente neste navegador — publique/configure a Central para valer no site.</span></section>
+    <section id="login" class="panel login" hidden><h2>Entrar na Central</h2><p>Use a senha configurada no Cloudflare Pages.</p><form id="loginForm"><label>Senha<input id="password" type="password" autocomplete="current-password" required></label><button>Entrar</button><p id="loginError" class="error" role="alert"></p></form></section>
+    <div id="editor" hidden>
+      <section class="panel"><div class="section-title"><div><span>CONDIÇÕES GERAIS</span><h2>Valores da locação</h2></div></div><div class="fields">
+        <label>Aluguel semanal a partir de (R$)<input id="weekly" type="number" min="0" step="1" inputmode="numeric"></label>
+        <label>Caução (R$)<input id="deposit" type="number" min="0" step="1" inputmode="numeric"></label>
+        <label>Contrato inicial (meses)<input id="initialMonths" type="number" min="1" step="1" inputmode="numeric"></label>
+        <label>Intenção de compra (R$/semana)<input id="purchaseWeekly" type="number" min="0" step="1" inputmode="numeric"></label>
+        <label>Intenção de compra (meses)<input id="purchaseMonths" type="number" min="1" step="1" inputmode="numeric"></label>
+        <label class="wide">Texto curto opcional<input id="shortText" maxlength="160" placeholder="Ex.: Condições sujeitas à disponibilidade."></label>
+      </div></section>
+      <section class="panel"><div class="section-title"><div><span>PRODUTOS</span><h2>Motos exibidas no site</h2></div><button id="addProduct" class="secondary">+ Adicionar moto</button></div><div id="products"></div></section>
+      <div class="actions"><button id="save">Salvar alterações</button><button id="discard" class="secondary">Descartar mudanças</button><p id="feedback" role="status"></p></div>
+    </div>
+  </main>
+  <template id="productTemplate"><article class="product"><div class="product-head"><strong class="product-number"></strong><div class="order"><button data-action="up" title="Mover para cima">↑</button><button data-action="down" title="Mover para baixo">↓</button><button data-action="delete" class="danger">Excluir</button></div></div><div class="product-layout"><div class="fields"><label>Nome<input data-field="nome" maxlength="80"></label><label>Categoria<input data-field="categoria" maxlength="40" placeholder="street ou scooter"></label><label>Preço<select data-field="precoTipo"><option value="a-partir-de">A partir de</option><option value="sob-consulta">Sob consulta</option></select></label><label>Valor semanal (R$)<input data-field="precoSemanal" type="number" min="0" inputmode="numeric"></label><label class="wide">Caminho ou URL HTTPS da imagem<input data-field="imagem" maxlength="240" placeholder="assets/minha-moto.jpeg"></label><label class="wide">Texto curto<input data-field="texto" maxlength="160"></label><label class="check"><input data-field="ativo" type="checkbox"> Mostrar no catálogo</label><label class="check"><input data-field="disponivel" type="checkbox"> Disponível para escolha</label></div><aside class="preview"><span>PRÉ-VISUALIZAÇÃO</span><img alt=""><h3></h3><p></p><strong></strong></aside></div></article></template>
+  <script src="painel.js"></script>
+</body></html>
