@@ -122,14 +122,30 @@
       </div>
       <div class="process-content reveal" id="como-funciona-titulo">
         <p class="eyebrow dark"><span></span> Como funciona</p>
-        <h2>Você escolhe. A equipe orienta o próximo passo.</h2>
+        <h2>Da escolha da moto ao acompanhamento.</h2>
         <ol class="process-list">
-          <li><span>01</span><div><h3>Faça a consulta de locação</h3><p>Responda perguntas simples sobre os requisitos e sua necessidade.</p></div></li>
-          <li><span>02</span><div><h3>Separe os documentos</h3><p>Se atender aos requisitos, confira a lista indicada para sua situação.</p></div></li>
-          <li><span>03</span><div><h3>Combine a retirada</h3><p>Após a confirmação, alinhe os detalhes diretamente pelo WhatsApp.</p></div></li>
-          <li><span>04</span><div><h3>Saia de moto</h3><p>Retire o modelo combinado e coloque seus planos em movimento.</p></div></li>
+          <li><span>01</span><div><h3>Escolha a moto</h3><p>Veja os modelos e o valor informado para cada um.</p></div></li>
+          <li><span>02</span><div><h3>Faça a consulta</h3><p>Responda uma pergunta por vez sobre os requisitos.</p></div></li>
+          <li><span>03</span><div><h3>Envie para análise</h3><p>O WhatsApp abre com suas respostas organizadas.</p></div></li>
+          <li><span>04</span><div><h3>Combine contrato e retirada</h3><p>Depois da análise, a equipe orienta os próximos passos.</p></div></li>
+          <li><span>05</span><div><h3>Use sua moto</h3><p>Retire o modelo combinado e comece sua rotina.</p></div></li>
+          <li><span>06</span><div><h3>Acompanhe pelo aplicativo</h3><p>Veja locação, contrato e orientações de óleo e manutenção.</p></div></li>
         </ol>
         <a class="button button-dark" data-open-simulator href="#simular-locacao">Começar consulta <span>→</span></a>
+      </div>
+    </section>
+
+    <section class="support-section section" aria-labelledby="support-title">
+      <div class="support-heading reveal">
+        <p class="eyebrow"><span></span> Acompanhamento no dia a dia</p>
+        <h2 id="support-title">Segurança e orientação na palma da mão.</h2>
+        <p>A moto tem rastreador. Pelo aplicativo, você acompanha a locação, o contrato e recebe orientações sobre os períodos de óleo e manutenção.</p>
+      </div>
+      <div class="support-grid reveal">
+        <article class="support-main"><b aria-hidden="true">▣</b><small>APLICATIVO LOCAFORT</small><h3>Acompanhe sua locação</h3><p id="supportAppText">Você acompanha locação, contrato e avisos pelo aplicativo.</p></article>
+        <article><b aria-hidden="true">⌖</b><h3>Moto com rastreador</h3><p id="supportTrackerText">A moto possui rastreador.</p></article>
+        <article><b aria-hidden="true">1.000</b><h3>Durante o aluguel</h3><p id="supportRentalText">No aluguel, a Locafort faz a troca de óleo a cada 1.000 km e a manutenção por desgaste natural.</p></article>
+        <article><b aria-hidden="true">★</b><h3>Intenção de compra</h3><p id="supportPurchaseText">No contrato com intenção de compra, troca de óleo e manutenção ficam por conta do cliente.</p></article>
       </div>
     </section>
 
@@ -210,9 +226,10 @@
           <p class="simulator-kicker">Condições da locação</p>
           <h3>Veja os valores</h3>
           <button class="question-listen" id="paymentListen" type="button" hidden>🔊 Ouvir explicação</button>
+          <p class="conditions-lead">Veja cada parte do aluguel antes de continuar.</p>
           <div class="payment-cards" id="conditionsCards">
           </div>
-          <button class="button button-primary payment-continue" id="paymentContinue" type="button">Quero continuar <span>→</span></button>
+          <button class="button button-primary payment-continue" id="paymentContinue" type="button">Entendi os valores <span>→</span></button>
         </div>
         <div class="simulator-step" id="simulatorModel">
           <p class="simulator-kicker">Escolha a moto</p>
@@ -222,7 +239,7 @@
         <div class="simulator-step" id="simulatorIntent">
           <p class="simulator-kicker">Pensando mais adiante</p>
           <h3>Hoje você pensa em:</h3>
-          <div class="simulator-options intent-options"><button type="button" data-intent="Aluguel"><b class="option-icon">↻</b><span>Aluguel</span><small>Contrato inicial de 6 meses.</small></button><button type="button" data-intent="Contrato com intenção de compra"><b class="option-icon">★</b><span>Contrato com intenção de compra</span><small>Pode começar depois dos 6 meses iniciais.</small></button></div>
+          <div class="simulator-options intent-options"><button type="button" data-intent="Aluguel"><b class="option-icon">↻</b><span>Aluguel</span><small>Contrato inicial de 6 meses.</small><small class="tap-hint">Toque para escolher</small></button><button type="button" data-intent="Contrato com intenção de compra"><b class="option-icon">★</b><span>Contrato com intenção de compra</span><small>Pode começar depois dos 6 meses iniciais.</small><small class="tap-hint">Toque para escolher</small></button></div>
         </div>
         <div class="simulator-step" id="simulatorIntentInfo">
           <p class="simulator-kicker">Como funciona depois</p>

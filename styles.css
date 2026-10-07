@@ -171,3 +171,35 @@ body.simulator-open{overflow:hidden}.simulator-modal{position:fixed;z-index:1000
   .care-cards{gap:7px}.care-cards>div{min-height:64px;padding:9px 11px}.care-cards>div>b{width:36px;height:36px}
   .care-cards strong{font-size:14px}.care-cards small{font-size:12px}.care-cards>.simple-details{margin:1px 0 10px}
 }
+
+/* v17 — escolhas evidentes, valores didáticos e acompanhamento */
+.simulator-options button,.model-options button{border-width:2px;border-color:#51515b;box-shadow:0 5px 0 #09090b,0 10px 24px rgba(0,0,0,.24)}
+.simulator-options button:hover,.simulator-options button:focus-visible,.model-options button:hover,.model-options button:focus-visible{border-color:#ff6269;box-shadow:0 4px 0 #7a151b,0 12px 26px rgba(0,0,0,.3)}
+.simulator-options button:active,.model-options button:active{transform:translateY(3px) scale(.99);box-shadow:0 1px 0 #7a151b}
+.simulator-options .tap-hint,.model-options .tap-hint{color:#ff8b91;font-size:12px;font-weight:900;letter-spacing:.15px}
+.simulator-options button:after{content:'Escolher →';right:13px;color:#ff737a;font-size:11px;font-weight:900}
+.model-options button{grid-template-columns:88px minmax(0,1fr) auto;padding:9px 10px}
+.model-options .choose-label{align-self:center;padding:8px 9px;border-radius:8px;background:var(--red);color:#fff;font-size:10px;line-height:1.15;text-align:center}
+.conditions-lead{margin:-7px 0 12px;color:#d4d4da;font-size:14px;line-height:1.45}
+.payment-cards article{min-height:104px;border-width:2px;border-color:#44444e;box-shadow:0 7px 18px rgba(0,0,0,.18)}
+.payment-cards article>b{background:var(--red);color:#fff;font-size:15px;box-shadow:0 4px 12px rgba(225,38,47,.28)}
+.payment-cards small{color:#ff969b;font-size:11px}.payment-cards strong{font-size:16px}.payment-cards em{color:#d1d1d7;font-size:12px;line-height:1.4}
+.payment-continue,.simulator-start,.simulator-field .button{min-height:54px;box-shadow:0 5px 0 #7f0e14,0 13px 28px rgba(225,38,47,.3)}
+.simple-details summary{font-size:15px;line-height:1.35}.simple-details>div,.simple-details>p{color:#d1d1d7;font-size:15px;line-height:1.6}
+.simulator-help,.simulator-field>small,.result-note{color:#d1d1d7;font-size:14px;line-height:1.55}
+.care-cards>div{border-width:2px;border-color:#464650}.care-cards small{color:#d1d1d7;font-size:14px}.care-cards .care-app{border-color:#9f2229;background:linear-gradient(145deg,#32171a,#1d171b);box-shadow:0 10px 26px rgba(225,38,47,.14)}
+.care-cards .care-app>b{background:var(--red);color:#fff}.care-cards .care-app strong{font-size:16px}
+.bike-ask{width:auto;min-width:104px;height:46px;padding:0 13px;border-radius:999px;font-size:10px;font-weight:900;white-space:nowrap}.bike-ask:active{transform:translateY(2px)}
+.support-section{background:#111114;color:#fff}.support-heading{max-width:880px;margin-bottom:38px}.support-heading h2{max-width:850px;margin:0;font-size:clamp(38px,5vw,72px);line-height:1;letter-spacing:-3px}.support-heading>p:last-child{max-width:760px;color:#c3c3c9;font-size:16px}
+.support-grid{display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:14px}.support-grid article{position:relative;min-height:230px;padding:25px;border:1px solid #37373e;border-radius:16px;background:#1b1b20}.support-grid .support-main{grid-row:span 2;display:flex;flex-direction:column;justify-content:flex-end;min-height:474px;background:linear-gradient(155deg,#e1262f 0%,#7e1118 72%,#4c0c11 100%);border-color:#ef525a}.support-grid article>b{display:grid;place-items:center;width:52px;height:52px;margin-bottom:auto;border-radius:14px;background:#292930;color:#ff656d;font-size:15px}.support-grid .support-main>b{background:#fff;color:#b41119;font-size:22px}.support-grid small{font-size:10px;font-weight:900;letter-spacing:1.4px}.support-grid h3{margin:12px 0 7px;font-size:22px;line-height:1.1}.support-grid p{margin:0;color:#c9c9cf;font-size:14px;line-height:1.55}.support-grid .support-main p{color:#fff;font-size:16px}
+.process-list li{align-items:start}.process-list li>span{display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:#f7e1e2;font-size:11px}.process-list p{font-size:14px;line-height:1.5}
+@media(max-width:900px){.support-grid{grid-template-columns:1fr 1fr}.support-grid .support-main{grid-row:auto;grid-column:1/-1;min-height:260px}.process-photo{min-height:520px}}
+@media(max-width:620px){
+  .simulator-options button{min-height:72px;padding:11px 94px 11px 10px}.simulator-options button:after{right:10px;font-size:10px}.simulator-options span{font-size:16px}.simulator-options small{font-size:13px}.simulator-options .tap-hint,.model-options .tap-hint{font-size:12px}
+  .model-options button{grid-template-columns:78px minmax(0,1fr);min-height:112px;padding:8px}.model-options img{grid-row:1;align-self:center;width:78px;height:78px}.model-options span{gap:3px}.model-options .choose-label{grid-column:1/-1;width:100%;padding:7px;font-size:11px}.model-options strong{font-size:16px}.model-options small{font-size:13px}
+  .conditions-lead{margin:-5px 0 9px;font-size:14px}.payment-cards{gap:7px}.payment-cards article{min-height:110px;padding:9px}.payment-cards strong{font-size:16px}.payment-cards em{font-size:12px}.payment-cards small{font-size:10px}.payment-continue{min-height:52px}
+  .simple-details summary{font-size:14px}.simple-details>div,.simple-details>p{font-size:14px}.care-cards small{font-size:13px}.care-cards>div{min-height:72px}.care-cards .care-app strong{font-size:15px}
+  .support-section{padding-top:68px;padding-bottom:68px}.support-heading{margin-bottom:24px}.support-heading h2{font-size:39px;letter-spacing:-2px}.support-heading>p:last-child{font-size:15px}.support-grid{grid-template-columns:1fr;gap:10px}.support-grid .support-main{grid-column:auto;min-height:250px}.support-grid article{min-height:190px;padding:20px}.support-grid h3{font-size:21px}.support-grid p,.support-grid .support-main p{font-size:15px}.support-grid article>b{width:48px;height:48px}
+  .process-list li{grid-template-columns:46px 1fr;gap:12px}.process-list li>span{width:40px;height:40px}.process-list p{font-size:14px}
+}
+@media(prefers-reduced-motion:reduce){.simulator-options button,.model-options button,.payment-continue{transition:none}}

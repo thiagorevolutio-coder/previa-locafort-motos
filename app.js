@@ -32,7 +32,7 @@ function renderCatalog() {
   const editableSteps = { city: ['cidadeTitulo', 'cidadeAjuda'], age: ['idadeTitulo', 'idadeAjuda'], cnh: ['cnhTitulo', 'cnhAjuda'], incomeProof: ['rendaTitulo', 'rendaAjuda'] };
   Object.entries(editableSteps).forEach(([id, keys]) => { const step = steps.find(item => item.id === id); if (step) { step.title = form[keys[0]] || step.title; step.help = form[keys[1]] || step.help; } });
   const cards = document.querySelector('#conditionsCards');
-  if (cards) cards.innerHTML = `<article><b aria-hidden="true">R$</b><span><small>ALUGUEL</small><strong>${money(conditions.semanalAPartirDe)}</strong><em>por semana, a partir de</em></span></article><article><b aria-hidden="true">🔒</b><span><small>CAUÇÃO</small><strong>${money(conditions.caucao)}</strong></span></article><article><b aria-hidden="true">2ª</b><span><small>COMEÇA A PAGAR</small><strong>Na segunda semana</strong></span></article><article><b aria-hidden="true">📅</b><span><small>CONTRATO INICIAL</small><strong>${conditions.mesesContratoInicial} meses</strong></span></article>`;
+  if (cards) cards.innerHTML = `<article><b aria-hidden="true">1</b><span><small>VALOR SEMANAL</small><strong>A partir de ${money(conditions.semanalAPartirDe)}</strong><em>O valor depende da moto escolhida.</em></span></article><article><b aria-hidden="true">2</b><span><small>CAUÇÃO</small><strong>${money(conditions.caucao)}</strong><em>Este é o valor da caução.</em></span></article><article><b aria-hidden="true">3</b><span><small>PRIMEIRA COBRANÇA</small><strong>A partir da 2ª semana</strong><em>É quando começam os pagamentos semanais.</em></span></article><article><b aria-hidden="true">4</b><span><small>CONTRATO INICIAL</small><strong>${conditions.mesesContratoInicial} meses</strong><em>Este é o período inicial do aluguel.</em></span></article>`;
   const products = catalog.produtos.filter(product => product.ativo).sort((a, b) => a.ordem - b.ordem);
   const choices = document.querySelector('#catalogModelOptions');
   if (choices) {
@@ -44,7 +44,8 @@ function renderCatalog() {
       const copy = document.createElement('span'); const name = document.createElement('strong'); name.textContent = product.nome;
       const price = document.createElement('small'); price.textContent = product.disponivel ? productPrice(product) : 'Indisponível no momento';
       const details = document.createElement('small'); details.className = 'product-meta'; details.textContent = [product.cilindrada, product.uso].filter(Boolean).join(' · ');
-      copy.append(name, price); if (details.textContent) copy.append(details); const arrow = document.createElement('b'); arrow.textContent = product.disponivel ? '→' : '—';
+      const hint = document.createElement('small'); hint.className = 'tap-hint'; hint.textContent = product.disponivel ? 'Toque para escolher' : '';
+      copy.append(name, price); if (details.textContent) copy.append(details); if (hint.textContent) copy.append(hint); const arrow = document.createElement('b'); arrow.className = 'choose-label'; arrow.textContent = product.disponivel ? 'Escolher →' : 'Indisponível';
       button.append(img, copy, arrow); choices.append(button);
     });
   }
@@ -59,7 +60,7 @@ function renderCatalog() {
       const info = document.createElement('div'); info.className = 'bike-info';
       const text = document.createElement('div'); const description = document.createElement('p'); description.textContent = product.texto;
       const title = document.createElement('h3'); title.textContent = product.nome; const meta = document.createElement('small'); meta.className = 'bike-meta'; meta.textContent = [product.cilindrada, product.uso].filter(Boolean).join(' · '); const price = document.createElement('small'); price.textContent = product.disponivel ? productPrice(product) : 'Indisponível no momento'; text.append(description, title); if (meta.textContent) text.append(meta); text.append(price);
-      const button = document.createElement('button'); button.className = 'bike-ask'; button.dataset.productId = product.id; button.disabled = !product.disponivel; button.setAttribute('aria-label', `${product.disponivel ? 'Consultar' : 'Indisponível'} ${product.nome}`); button.textContent = product.disponivel ? '↗' : '—';
+      const button = document.createElement('button'); button.className = 'bike-ask'; button.dataset.productId = product.id; button.disabled = !product.disponivel; button.setAttribute('aria-label', `${product.disponivel ? 'Consultar' : 'Indisponível'} ${product.nome}`); button.textContent = product.disponivel ? 'Escolher →' : 'Indisponível';
       info.append(text, button); card.append(image, info); fleet.append(card);
     });
   }
@@ -71,6 +72,10 @@ function renderCatalog() {
   if (faqSecurity) faqSecurity.textContent = `${form.rastreadorTexto} ${form.aplicativoTexto}`;
   const faqMaintenance = document.querySelector('#faqMaintenance');
   if (faqMaintenance) faqMaintenance.textContent = `${form.manutencaoAluguel} ${form.manutencaoCompra}`;
+  setText('#supportTrackerText', form.rastreadorTexto);
+  setText('#supportAppText', form.aplicativoTexto);
+  setText('#supportRentalText', form.manutencaoAluguel);
+  setText('#supportPurchaseText', form.manutencaoCompra);
 }
 
 const steps = [
@@ -206,7 +211,7 @@ function render() {
       button.type = 'button';
       button.dataset.value = value;
       button.classList.toggle('selected', data.answers[step.id] === value);
-      button.innerHTML = `<b class="option-icon" aria-hidden="true">${icon}</b><span>${label}</span>${detail ? `<small>${detail}</small>` : ''}`;
+      button.innerHTML = `<b class="option-icon" aria-hidden="true">${icon}</b><span>${label}</span>${detail ? `<small>${detail}</small>` : ''}<small class="tap-hint">Toque para escolher</small>`;
       button.addEventListener('click', () => answerOption(step, value, button));
       optionsBox.appendChild(button);
     });
@@ -283,7 +288,7 @@ function renderCareInfo() {
   const form = catalog.formulario;
   const purchase = data.answers.intent === 'Contrato com intenção de compra';
   document.querySelector('#careInfoTitle').textContent = form.segurancaTitulo;
-  document.querySelector('#careInfoBody').innerHTML = `<div><b aria-hidden="true">⌖</b><span><strong>Rastreador</strong><small>${form.rastreadorTexto}</small></span></div><div><b aria-hidden="true">▣</b><span><strong>Aplicativo</strong><small>${form.aplicativoTexto}</small></span></div><details class="simple-details"><summary>Óleo e manutenção</summary><div><p>${form.manutencaoAluguel}</p>${purchase ? `<p><strong>Depois dos 6 meses iniciais:</strong> ${form.manutencaoCompra}</p>` : `<p>Se escolher o contrato com intenção de compra depois: ${form.manutencaoCompra}</p>`}</div></details>`;
+  document.querySelector('#careInfoBody').innerHTML = `<div><b aria-hidden="true">⌖</b><span><strong>Moto com rastreador</strong><small>${form.rastreadorTexto}</small></span></div><div class="care-app"><b aria-hidden="true">▣</b><span><strong>Acompanhe pelo aplicativo</strong><small>${form.aplicativoTexto}</small></span></div><details class="simple-details"><summary>Ver quem cuida do óleo e da manutenção</summary><div><p>${form.manutencaoAluguel}</p>${purchase ? `<p><strong>Depois dos 6 meses iniciais:</strong> ${form.manutencaoCompra}</p>` : `<p>Se escolher o contrato com intenção de compra depois: ${form.manutencaoCompra}</p>`}</div></details>`;
 }
 questionForm.addEventListener('submit', event => {
   event.preventDefault(); const step = currentStep(); const value = questionInput.value.trim(); const valid = step.input.validate(value); const error = document.querySelector('#questionError');
