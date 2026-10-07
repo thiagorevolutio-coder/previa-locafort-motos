@@ -1,5 +1,5 @@
 let PHONE = '5585989181727';
-const STORAGE_KEY = 'locafort-consulta-v3';
+const STORAGE_KEY = 'locafort-consulta-v4';
 const waLink = message => `https://wa.me/${PHONE}?text=${encodeURIComponent(message)}`;
 const ROOT_PREFIX = document.body.dataset.rootPrefix || '';
 let catalog = null;
@@ -67,6 +67,10 @@ function renderCatalog() {
   if (faqPricing) faqPricing.textContent = `O aluguel começa em ${money(conditions.semanalAPartirDe)} por semana, a caução é de ${money(conditions.caucao)} e os pagamentos semanais começam ${conditions.pagamentoSemanalInicio}. O contrato inicial tem duração mínima de ${conditions.mesesContratoInicial} meses.`;
   const faqIntent = document.querySelector('#faqIntent');
   if (faqIntent) faqIntent.textContent = `Todos começam com contrato mínimo de aluguel de ${conditions.mesesContratoInicial} meses. Depois, é possível renovar o aluguel por mais ${conditions.mesesContratoInicial} meses ou optar pelo contrato com intenção de compra, de ${money(conditions.intencaoCompraSemanal)} por semana durante ${conditions.intencaoCompraMeses} meses.`;
+  const faqSecurity = document.querySelector('#faqSecurity');
+  if (faqSecurity) faqSecurity.textContent = `${form.rastreadorTexto} ${form.aplicativoTexto}`;
+  const faqMaintenance = document.querySelector('#faqMaintenance');
+  if (faqMaintenance) faqMaintenance.textContent = `${form.manutencaoAluguel} ${form.manutencaoCompra}`;
 }
 
 const steps = [
@@ -76,6 +80,8 @@ const steps = [
   { id: 'incomeProof', kicker: 'Quarto requisito', title: 'Você tem comprovantes de renda?', help: 'Não há renda mínima. Você só precisa conseguir comprovar.', options: [['Sim', 'Sim, tenho', '✓'], ['Não', 'Ainda não', '–']], reject: value => value === 'Não' ? ['Organize seus comprovantes de renda', 'Para continuar a análise, separe o comprovante mais recente ou contracheque se tiver emprego formal; comprovante MEI e relatório de renda se for MEI; ou relatórios e comprovantes dos últimos 3 meses se trabalhar com aplicativos, de forma informal ou como autônomo. Quando estiver com eles, faça uma nova consulta.'] : null },
   { id: 'incomeSource', kicker: 'Sobre sua renda', title: 'De onde vem sua renda?', help: 'No final, mostramos qual comprovante você precisa separar.', options: [['Emprego formal', 'Emprego formal', '💼'], ['MEI', 'MEI', 'M'], ['Aplicativos', 'Aplicativos', '📱'], ['Informal/autônomo', 'Informal ou autônomo', '🔧']] },
   { id: 'purpose', kicker: 'Sobre a moto', title: 'Vai usar a moto para quê?', options: [['Aplicativos', 'Trabalhar com apps', '📱'], ['Uso particular', 'Uso particular', '🛣️']] },
+  { id: 'maritalStatus', kicker: 'Sobre você', title: 'Qual é seu estado civil?', options: [['Casado(a)', 'Casado(a)', '♥'], ['Solteiro(a)', 'Solteiro(a)', '●'], ['União estável', 'União estável', '∞'], ['Outro', 'Outro', '+']] },
+  { id: 'children', kicker: 'Sobre sua família', title: 'Você tem filhos?', help: 'Essa resposta não muda os requisitos da locação.', options: [['Sim', 'Sim', '✓'], ['Não', 'Não', '–']] },
   { id: 'name', kicker: 'Seus dados', title: 'Qual é seu nome completo?', input: { type: 'text', label: 'Nome completo', autocomplete: 'name', hint: 'Exemplo: Maria da Silva', validate: value => value.trim().split(/\s+/).length >= 2 || 'Digite seu nome e sobrenome.' } },
   { id: 'income', kicker: 'Sua renda', title: 'Quanto você ganha por mês?', input: { type: 'text', inputmode: 'numeric', label: 'Renda mensal', placeholder: 'R$ 2.500', hint: 'Pode ser um valor aproximado. Não há renda mínima.', validate: value => Number(value.replace(/\D/g, '')) > 0 || 'Digite um valor aproximado.' } },
   { id: 'email', kicker: 'Seu contato', title: 'Qual é seu melhor e-mail?', input: { type: 'email', label: 'E-mail', autocomplete: 'email', placeholder: 'voce@exemplo.com', hint: 'Usaremos para organizar a análise.', validate: value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) || 'Confira se o e-mail está completo.' } },
@@ -94,6 +100,7 @@ const payment = document.querySelector('#simulatorPayment');
 const modelPanel = document.querySelector('#simulatorModel');
 const intentPanel = document.querySelector('#simulatorIntent');
 const intentInfoPanel = document.querySelector('#simulatorIntentInfo');
+const careInfoPanel = document.querySelector('#simulatorCareInfo');
 const question = document.querySelector('#simulatorQuestion');
 const result = document.querySelector('#simulatorResult');
 const content = simulator.querySelector('.simulator-content');
@@ -107,6 +114,7 @@ const questionInput = document.querySelector('#questionInput');
 const speechButton = document.querySelector('#questionListen');
 const paymentSpeechButton = document.querySelector('#paymentListen');
 const intentSpeechButton = document.querySelector('#intentListen');
+const careSpeechButton = document.querySelector('#careListen');
 const sendButton = document.querySelector('#enviarPedido');
 const speechSupported = typeof window.speechSynthesis !== 'undefined' && typeof window.SpeechSynthesisUtterance === 'function';
 let data = { answers: {}, index: -1, status: 'intro' };
@@ -117,13 +125,13 @@ function save() { try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data)
 function load() { try { const stored = JSON.parse(sessionStorage.getItem(STORAGE_KEY)); if (stored && stored.answers && Number.isInteger(stored.index)) data = stored; } catch (_) { sessionStorage.removeItem(STORAGE_KEY); } }
 function activeSteps() { return steps.filter(step => !step.condition || step.condition(data.answers)); }
 function currentStep() { return activeSteps()[data.index]; }
-function showPanel(panel) { [intro, payment, modelPanel, intentPanel, intentInfoPanel, question, result].forEach(item => item.classList.toggle('active', item === panel)); content.scrollTo({ top: 0, behavior: 'smooth' }); }
+function showPanel(panel) { [intro, payment, modelPanel, intentPanel, intentInfoPanel, careInfoPanel, question, result].forEach(item => item.classList.toggle('active', item === panel)); content.scrollTo({ top: 0, behavior: 'smooth' }); }
 function setProgress() {
   const list = activeSteps();
   const current = Math.max(0, data.index);
-  const percent = data.status === 'approved' ? 100 : ['intro', 'payment', 'model', 'intent', 'intentInfo'].includes(data.status) ? 0 : Math.round(((current + 1) / list.length) * 100);
+  const percent = data.status === 'approved' ? 100 : ['intro', 'payment', 'model', 'intent', 'intentInfo', 'careInfo'].includes(data.status) ? 0 : Math.round(((current + 1) / list.length) * 100);
   progressBar.style.setProperty('--progress', `${percent}%`);
-  progressLabel.textContent = data.status === 'intro' ? 'Antes de começar' : data.status === 'payment' ? 'Condições da locação' : data.status === 'model' ? 'Escolha da moto' : data.status === 'intent' ? 'Seu plano' : data.status === 'intentInfo' ? 'Como funciona depois' : data.status === 'approved' ? 'Consulta concluída' : data.status === 'stopped' ? 'Consulta concluída' : current < 4 ? `Passo ${current + 1} de 4` : 'Só mais algumas informações';
+  progressLabel.textContent = data.status === 'intro' ? 'Antes de começar' : data.status === 'payment' ? 'Condições da locação' : data.status === 'model' ? 'Escolha da moto' : data.status === 'intent' ? 'Seu plano' : data.status === 'intentInfo' ? 'Como funciona depois' : data.status === 'careInfo' ? 'Segurança e manutenção' : data.status === 'approved' ? 'Consulta concluída' : data.status === 'stopped' ? 'Consulta concluída' : current < 4 ? `Passo ${current + 1} de 4` : 'Só mais algumas informações';
 }
 function render() {
   stopSpeech();
@@ -131,6 +139,7 @@ function render() {
   backButton.hidden = data.status === 'intro';
   restartButton.hidden = data.status === 'intro';
   sendButton.hidden = true;
+  careSpeechButton.hidden = true;
   if (data.status === 'intro') {
     speechButton.hidden = true;
     paymentSpeechButton.hidden = true;
@@ -166,6 +175,14 @@ function render() {
     intentSpeechButton.hidden = !speechSupported;
     renderIntentInfo();
     focusSoon('#intentContinue');
+    return;
+  }
+  if (data.status === 'careInfo') {
+    showPanel(careInfoPanel);
+    speechButton.hidden = paymentSpeechButton.hidden = intentSpeechButton.hidden = true;
+    careSpeechButton.hidden = !speechSupported;
+    renderCareInfo();
+    focusSoon('#careContinue');
     return;
   }
   if (data.status === 'stopped' || data.status === 'approved') return renderResult();
@@ -243,7 +260,7 @@ function renderResult() {
   body.innerHTML = `<p class="result-message">Agora, envie seu resumo pelo WhatsApp.</p><details class="simple-details result-details"><summary>Ver documentos</summary><div><ul class="document-list"><li>${form.documentoCnh || 'CNH digital'}</li><li>${form.documentoEndereco || '3 comprovantes do endereço atual do mesmo tipo'}</li><li>${incomeDocument()}</li><li>${form.documentoGov || 'Acesso à sua conta Gov.br'}</li></ul><p>Nunca envie senha ou código.</p></div></details><details class="simple-details result-details"><summary>Entenda a análise</summary><p>${form.avisoAnalise || 'Esta consulta não garante aprovação. O responsável confere os documentos e dá a decisão final.'}</p></details>`;
   const a = data.answers;
   const relationship = a.relationship ? ` (${a.relationship})` : '';
-  const message = ['Olá! Concluí a consulta de locação no site da Locafort.', '', `Nome: ${a.name}`, 'Cidade: Fortaleza', `Idade: ${a.age}`, 'CNH: definitiva', `E-mail: ${a.email}`, `Telefone: ${a.phone}`, `Moto escolhida: ${a.model}`, `Valor informado: ${a.modelPrice}`, `Intenção declarada: ${a.intent}`, `Explicação recebida: ${intentExplanation()}`, `Finalidade: ${a.purpose}`, `Fonte de renda: ${a.incomeSource}`, `Renda mensal declarada: R$ ${a.income.replace(/\D/g, '')}`, `Comprovantes de renda: sim — ${incomeDocument()}`, `Comprovantes de endereço: ${a.addressDocs}${relationship}`, `Previsão de início: ${a.start}`, `Como conheceu: ${a.source}`, '', 'Documentos orientados: CNH digital; 3 comprovantes do endereço atual do mesmo tipo; comprovantes de renda conforme a categoria; acesso à própria conta Gov.br.', 'Entendi que a consulta não garante aprovação final e que não devo enviar senha ou código do Gov.br.'].join('\n');
+  const message = ['Olá! Concluí a consulta de locação no site da Locafort.', '', `Nome: ${a.name}`, 'Cidade: Fortaleza', `Idade: ${a.age}`, 'CNH: definitiva', `E-mail: ${a.email}`, `Telefone: ${a.phone}`, `Moto escolhida: ${a.model}`, `Valor informado: ${a.modelPrice}`, `Intenção declarada: ${a.intent}`, `Explicação recebida: ${intentExplanation()}`, `Finalidade: ${a.purpose}`, `Estado civil: ${a.maritalStatus}`, `Tem filhos: ${a.children}`, `Fonte de renda: ${a.incomeSource}`, `Renda mensal declarada: R$ ${a.income.replace(/\D/g, '')}`, `Comprovantes de renda: sim — ${incomeDocument()}`, `Comprovantes de endereço: ${a.addressDocs}${relationship}`, `Previsão de início: ${a.start}`, `Como conheceu: ${a.source}`, '', 'Orientação recebida: rastreador, aplicativo e responsabilidades de óleo/manutenção conforme o contrato escolhido.', 'Documentos orientados: CNH digital; 3 comprovantes do endereço atual do mesmo tipo; comprovantes de renda conforme a categoria; acesso à própria conta Gov.br.', 'Entendi que a consulta não garante aprovação final e que não devo enviar senha ou código do Gov.br.'].join('\n');
   sendButton.href = waLink(message); sendButton.target = '_blank'; sendButton.rel = 'noopener'; sendButton.hidden = false;
   focusSoon('#enviarPedido');
 }
@@ -257,6 +274,16 @@ function renderIntentInfo() {
   document.querySelector('#intentInfoTitle').textContent = data.answers.intent === 'Contrato com intenção de compra' ? `Primeiro, são ${c.mesesContratoInicial} meses de aluguel` : 'Você pode continuar alugando';
   const purchase = data.answers.intent === 'Contrato com intenção de compra';
   document.querySelector('#intentInfoBody').innerHTML = `<div class="intent-main-card"><b aria-hidden="true">${purchase ? '★' : '↻'}</b><span><small>DEPOIS DOS ${c.mesesContratoInicial} MESES</small><strong>${purchase ? `${money(c.intencaoCompraSemanal)} por semana` : `Renove por mais ${c.mesesContratoInicial} meses`}</strong>${purchase ? `<em>durante ${c.intencaoCompraMeses} meses</em>` : ''}</span></div><details class="simple-details"><summary>Entenda melhor</summary><p>${purchase ? `O contrato com intenção de compra só pode começar depois dos ${c.mesesContratoInicial} meses iniciais. Você também pode renovar o aluguel.` : `Depois dos ${c.mesesContratoInicial} meses, você pode renovar o aluguel ou escolher o contrato com intenção de compra: ${money(c.intencaoCompraSemanal)} por semana durante ${c.intencaoCompraMeses} meses.`}</p></details>`;
+}
+function careExplanation() {
+  const form = catalog.formulario;
+  return `${form.rastreadorTexto} ${form.aplicativoTexto} ${data.answers.intent === 'Contrato com intenção de compra' ? `${form.manutencaoAluguel} Depois dos 6 meses iniciais, ${form.manutencaoCompra.toLowerCase()}` : form.manutencaoAluguel}`;
+}
+function renderCareInfo() {
+  const form = catalog.formulario;
+  const purchase = data.answers.intent === 'Contrato com intenção de compra';
+  document.querySelector('#careInfoTitle').textContent = form.segurancaTitulo;
+  document.querySelector('#careInfoBody').innerHTML = `<div><b aria-hidden="true">⌖</b><span><strong>Rastreador</strong><small>${form.rastreadorTexto}</small></span></div><div><b aria-hidden="true">▣</b><span><strong>Aplicativo</strong><small>${form.aplicativoTexto}</small></span></div><details class="simple-details"><summary>Óleo e manutenção</summary><div><p>${form.manutencaoAluguel}</p>${purchase ? `<p><strong>Depois dos 6 meses iniciais:</strong> ${form.manutencaoCompra}</p>` : `<p>Se escolher o contrato com intenção de compra depois: ${form.manutencaoCompra}</p>`}</div></details>`;
 }
 questionForm.addEventListener('submit', event => {
   event.preventDefault(); const step = currentStep(); const value = questionInput.value.trim(); const valid = step.input.validate(value); const error = document.querySelector('#questionError');
@@ -274,7 +301,7 @@ questionInput.addEventListener('input', () => {
   document.querySelector('#questionError').hidden = true;
   questionInput.removeAttribute('aria-invalid');
 });
-function stopSpeech() { if (speechSupported) window.speechSynthesis.cancel(); speechButton.classList.remove('speaking'); speechButton.textContent = '🔊 Ouvir pergunta'; paymentSpeechButton.classList.remove('speaking'); paymentSpeechButton.textContent = '🔊 Ouvir explicação'; intentSpeechButton.classList.remove('speaking'); intentSpeechButton.textContent = '🔊 Ouvir explicação'; }
+function stopSpeech() { if (speechSupported) window.speechSynthesis.cancel(); speechButton.classList.remove('speaking'); speechButton.textContent = '🔊 Ouvir pergunta'; paymentSpeechButton.classList.remove('speaking'); paymentSpeechButton.textContent = '🔊 Ouvir explicação'; intentSpeechButton.classList.remove('speaking'); intentSpeechButton.textContent = '🔊 Ouvir explicação'; careSpeechButton.classList.remove('speaking'); careSpeechButton.textContent = '🔊 Ouvir explicação'; }
 function speakText(button, text) {
   if (!speechSupported) return;
   if (button.classList.contains('speaking')) { stopSpeech(); return; }
@@ -293,7 +320,8 @@ speechButton.addEventListener('click', () => {
 });
 paymentSpeechButton.addEventListener('click', () => { const c = catalog.condicoes; speakText(paymentSpeechButton, `Condições da locação. Aluguel a partir de ${money(c.semanalAPartirDe)} por semana. Caução de ${money(c.caucao)}. Pagamentos semanais ${c.pagamentoSemanalInicio}. Contrato inicial mínimo de ${c.mesesContratoInicial} meses.`); });
 intentSpeechButton.addEventListener('click', () => speakText(intentSpeechButton, intentExplanation()));
-function goBack() { if (data.status === 'stopped' || data.status === 'approved') data.status = 'questions'; else if (data.status === 'payment') data.status = 'intro'; else if (data.status === 'model') data.status = 'payment'; else if (data.status === 'intent') data.status = 'model'; else if (data.status === 'intentInfo') data.status = 'intent'; else if (data.index > 0) data.index -= 1; else { data.status = 'intentInfo'; data.index = -1; } save(); render(); }
+careSpeechButton.addEventListener('click', () => speakText(careSpeechButton, careExplanation()));
+function goBack() { if (data.status === 'stopped' || data.status === 'approved') data.status = 'questions'; else if (data.status === 'payment') data.status = 'intro'; else if (data.status === 'model') data.status = 'payment'; else if (data.status === 'intent') data.status = 'model'; else if (data.status === 'intentInfo') data.status = 'intent'; else if (data.status === 'careInfo') data.status = 'intentInfo'; else if (data.index > 0) data.index -= 1; else { data.status = 'careInfo'; data.index = -1; } save(); render(); }
 function restart() { data = { answers: {}, index: -1, status: 'intro' }; try { sessionStorage.removeItem(STORAGE_KEY); } catch (_) {} render(); }
 function focusSoon(selector) { setTimeout(() => simulator.querySelector(selector)?.focus({ preventScroll: true }), 80); }
 async function openSimulator(openTrigger = null) { triggerBeforeOpen = openTrigger || document.activeElement; try { await catalogReady; } catch (_) { alert('Não foi possível carregar as condições. Recarregue a página para tentar novamente.'); return; } simulator.inert = false; simulator.classList.add('open'); simulator.setAttribute('aria-hidden', 'false'); document.body.classList.add('simulator-open'); load(); render(); setTimeout(() => simulator.querySelector('.simulator-close').focus(), 30); }
@@ -306,7 +334,8 @@ document.querySelector('#paymentContinue').addEventListener('click', () => { dat
 document.querySelector('#catalogModelOptions').addEventListener('click', event => { const button = event.target.closest('button[data-product-id]'); if (!button || button.disabled) return; const product = catalog.produtos.find(item => item.id === button.dataset.productId); data.answers.modelId = product.id; data.answers.model = product.nome; data.answers.modelPrice = productPrice(product); data.status = 'intent'; save(); render(); });
 document.querySelector('#catalogFleet')?.addEventListener('click', event => { const button = event.target.closest('button[data-product-id]'); if (!button || button.disabled) return; const product = catalog.produtos.find(item => item.id === button.dataset.productId); data.answers.modelId = product.id; data.answers.model = product.nome; data.answers.modelPrice = productPrice(product); if (window.location.hash !== '#simular-locacao') history.pushState(null, '', '#simular-locacao'); openSimulator(button); });
 document.querySelectorAll('.intent-options button').forEach(button => button.addEventListener('click', () => { data.answers.intent = button.dataset.intent; data.status = 'intentInfo'; save(); render(); }));
-document.querySelector('#intentContinue').addEventListener('click', () => { if (data.index < 0) data.index = 0; data.status = 'questions'; save(); render(); });
+document.querySelector('#intentContinue').addEventListener('click', () => { data.status = 'careInfo'; save(); render(); });
+document.querySelector('#careContinue').addEventListener('click', () => { if (data.index < 0) data.index = 0; data.status = 'questions'; save(); render(); });
 backButton.addEventListener('click', goBack); restartButton.addEventListener('click', restart); document.querySelector('#resultRestart').addEventListener('click', restart);
 document.addEventListener('keydown', event => {
   if (!simulator.classList.contains('open')) return;

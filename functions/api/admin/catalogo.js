@@ -11,7 +11,7 @@ export async function onRequestPost({ env, request }) {
   try {
     const value = await readJson(request);
     if (!validateCatalog(value)) return json({ erro: 'Revise os campos do catálogo.' }, 422);
-    value.versao = 2;
+    value.versao = 3;
     value.atualizadoEm = new Date().toISOString();
     await env.LOCAFORT_CONFIG.put('catalogo', JSON.stringify(value));
     return json({ ok: true, catalogo: value });

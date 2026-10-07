@@ -9,13 +9,13 @@ Abra bio.html
 CONSULTA DE LOCAÇÃO DIRETA:
 Abra formulario/index.html
 
-CENTRAL DO CATÁLOGO:
-Abra painel/index.html. No computador local, funciona em modo demonstração e salva somente neste navegador. Leia CONFIGURAR-CENTRAL.md para configurar Cloudflare Pages + KV.
+CENTRAL DE CONTEÚDO:
+Abra painel/index.html. No computador local, funciona em modo demonstração e salva somente neste navegador. Leia CONFIGURAR-CENTRAL.md para configurar Cloudflare Pages, KV e R2.
 
-LINKS APÓS PUBLICAR NO GITHUB PAGES:
-Site: https://thiagorevolutio-coder.github.io/previa-locafort-motos/
-Bio: https://thiagorevolutio-coder.github.io/previa-locafort-motos/bio.html
-Consulta de locação: https://thiagorevolutio-coder.github.io/previa-locafort-motos/formulario/
+DOMÍNIO OFICIAL:
+Site: https://locafortmotos.com.br/
+Bio: https://locafortmotos.com.br/bio.html
+Consulta de locação: https://locafortmotos.com.br/formulario/
 
 IMPORTANTE:
 - Disponibilidade, valores, documentos e condições estão descritos como "sob consulta".

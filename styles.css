@@ -160,3 +160,14 @@ body.simulator-open{overflow:hidden}.simulator-modal{position:fixed;z-index:1000
 }
 
 .product-meta,.bike-meta{color:#85858d!important;font-size:10px!important;line-height:1.35}.bike-info>div{display:grid;gap:3px}
+
+/* v16 — segurança, aplicativo e responsabilidades antes da consulta */
+.care-cards{display:grid;gap:9px}
+.care-cards>div{display:grid;grid-template-columns:42px minmax(0,1fr);align-items:center;gap:11px;min-height:68px;padding:11px 13px;border:1px solid #34343c;border-radius:11px;background:#19191e}
+.care-cards>div>b{display:grid;place-items:center;width:38px;height:38px;border-radius:10px;background:#29292f;color:#ff6269;font-size:18px}
+.care-cards>div>span{display:grid;gap:2px}.care-cards strong{font-size:15px;line-height:1.25}.care-cards small{color:#b6b6bd;font-size:13px;line-height:1.4}
+.care-cards>.simple-details{display:block;margin:1px 0 13px}
+@media(max-width:620px){
+  .care-cards{gap:7px}.care-cards>div{min-height:64px;padding:9px 11px}.care-cards>div>b{width:36px;height:36px}
+  .care-cards strong{font-size:14px}.care-cards small{font-size:12px}.care-cards>.simple-details{margin:1px 0 10px}
+}

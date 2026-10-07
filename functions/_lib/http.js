@@ -33,7 +33,7 @@ export async function getCatalog(env, request) {
   return {
     ...defaults,
     ...saved,
-    versao: 2,
+    versao: 3,
     condicoes: { ...defaults.condicoes, ...(saved.condicoes || {}) },
     site: { ...defaults.site, ...(saved.site || {}) },
     formulario: { ...defaults.formulario, ...(saved.formulario || {}) },

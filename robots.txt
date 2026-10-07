@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /painel/
 
-Sitemap: https://thiagorevolutio-coder.github.io/previa-locafort-motos/sitemap.xml
+Sitemap: https://locafortmotos.com.br/sitemap.xml

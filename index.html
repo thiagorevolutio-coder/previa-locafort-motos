@@ -8,8 +8,12 @@
   <meta name="theme-color" content="#0b0b0d">
   <meta property="og:title" content="Aluguel de moto em Fortaleza | Locafort Motos">
   <meta property="og:description" content="Consulte modelos para aluguel de moto em Fortaleza e fale direto com a Locafort.">
-  <meta property="og:image" content="assets/frota-locafort.jpeg">
-  <link rel="canonical" href="https://thiagorevolutio-coder.github.io/previa-locafort-motos/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Locafort Motos">
+  <meta property="og:url" content="https://locafortmotos.com.br/">
+  <meta property="og:image" content="https://locafortmotos.com.br/assets/frota-locafort.jpeg">
+  <meta property="og:image:alt" content="Frota de motos da Locafort em Fortaleza">
+  <link rel="canonical" href="https://locafortmotos.com.br/">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230b0b0d'/%3E%3Cpath d='M10 38h9l6-12h13l7 12h9' fill='none' stroke='%23e1262f' stroke-width='6' stroke-linecap='round'/%3E%3Ccircle cx='18' cy='42' r='8' fill='none' stroke='white' stroke-width='4'/%3E%3Ccircle cx='48' cy='42' r='8' fill='none' stroke='white' stroke-width='4'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css">
   <script type="application/ld+json">
@@ -18,7 +22,10 @@
     "@type": "LocalBusiness",
     "name": "Locafort Motos",
     "description": "Aluguel de moto em Fortaleza para trabalho e mobilidade.",
+    "url": "https://locafortmotos.com.br/",
+    "image": "https://locafortmotos.com.br/assets/frota-locafort.jpeg",
     "telephone": "+55 85 98918-1727",
+    "priceRange": "A partir de R$ 300 por semana",
     "areaServed": {"@type": "City", "name": "Fortaleza"},
     "sameAs": ["https://www.instagram.com/locafortmotos/"]
   }
@@ -149,6 +156,8 @@
         <details><summary>Quanto custa o aluguel?<span>+</span></summary><p id="faqPricing">Carregando as condições atuais…</p></details>
         <details><summary>Posso pensar em ficar com a moto depois?<span>+</span></summary><p id="faqIntent">Carregando as condições atuais…</p></details>
         <details><summary>Posso alugar para trabalhar com aplicativos?<span>+</span></summary><p>Conte à equipe como pretende usar a moto. Assim, você recebe informações sobre os modelos e condições disponíveis para sua necessidade.</p></details>
+        <details><summary>A moto tem rastreador e aplicativo?<span>+</span></summary><p id="faqSecurity">Sim. A moto possui rastreador, e o cliente acompanha a locação, o contrato e avisos pelo aplicativo.</p></details>
+        <details><summary>Quem cuida do óleo e da manutenção?<span>+</span></summary><p id="faqMaintenance">No aluguel, a Locafort cuida da troca de óleo a cada 1.000 km e do desgaste natural. No contrato com intenção de compra, esses cuidados ficam por conta do cliente.</p></details>
       </div>
     </section>
 
@@ -221,6 +230,13 @@
           <button class="question-listen" id="intentListen" type="button" hidden>🔊 Ouvir explicação</button>
           <div class="intent-explanation" id="intentInfoBody"></div>
           <button class="button button-primary payment-continue" id="intentContinue" type="button">Entendi, continuar <span>→</span></button>
+        </div>
+        <div class="simulator-step" id="simulatorCareInfo">
+          <p class="simulator-kicker">Segurança e cuidados</p>
+          <h3 id="careInfoTitle">Sua moto, mais segura</h3>
+          <button class="question-listen" id="careListen" type="button" hidden>🔊 Ouvir explicação</button>
+          <div class="care-cards" id="careInfoBody"></div>
+          <button class="button button-primary payment-continue" id="careContinue" type="button">Entendi, continuar <span>→</span></button>
         </div>
         <div class="simulator-step" id="simulatorQuestion">
           <p class="simulator-kicker" id="questionKicker"></p>

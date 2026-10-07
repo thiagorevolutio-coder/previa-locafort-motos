@@ -2,6 +2,8 @@
 
 O site funciona localmente com `catalogo-padrao.json`. Para que alterações feitas em `/painel/` apareçam para todos no site publicado, configure KV, R2 e os segredos abaixo no projeto do Cloudflare Pages.
 
+Na área **Formulário / condições**, também é possível editar os textos públicos de rastreador, aplicativo e responsabilidades de óleo e manutenção. Esses campos usam os padrões confirmados da Locafort e são validados antes de salvar.
+
 ## 1. Criar e vincular o KV
 
 1. No painel Cloudflare, abra **Workers & Pages** e selecione o projeto deste site.
@@ -32,9 +34,9 @@ Não coloque esses valores em arquivos do site ou no repositório. Configure pro
 ## 4. Publicar e conferir
 
 1. Faça um novo deploy depois de criar o binding e os segredos.
-2. Abra `https://seudominio.com.br/api/catalogo` e confirme que recebe JSON sem dados secretos.
-3. Abra `https://seudominio.com.br/painel/`, entre com `ADMIN_PASSWORD`, adicione um produto e envie uma imagem pequena.
-4. Recarregue a home e `https://seudominio.com.br/formulario/` para confirmar a mesma alteração nos dois locais.
+2. Abra `https://locafortmotos.com.br/api/catalogo` e confirme que recebe JSON sem dados secretos.
+3. Abra `https://locafortmotos.com.br/painel/`, entre com `ADMIN_PASSWORD`, adicione um produto e envie uma imagem pequena.
+4. Recarregue a home e `https://locafortmotos.com.br/formulario/` para confirmar a mesma alteração nos dois locais.
 5. Confirme que a imagem abre por `/api/media/...`, teste **Sair** e confirme que `/api/admin/catalogo` responde sem autorização depois do logout.
 
 ## Teste local
@@ -52,3 +54,4 @@ Para testar também login e endpoints administrativos do mock, defina `LOCAFORT_
 ## Mídias e URLs
 
 O painel aceita upload, caminho relativo dentro de `assets/`, caminho gerado `/api/media/...` ou URL pública HTTPS. Se o binding R2 estiver ausente, o painel mostra a instrução para configurar `LOCAFORT_MEDIA` e mantém a mídia atual, sem impedir a edição dos demais campos.
+

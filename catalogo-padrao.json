@@ -1,5 +1,5 @@
 {
-  "versao": 2,
+  "versao": 3,
   "site": {
     "whatsapp": "5585989181727",
     "tituloPrincipal": "Aluguel de moto em Fortaleza",
@@ -20,6 +20,11 @@
     "cnhAjuda": "É a carteira recebida depois da provisória.",
     "rendaTitulo": "Você tem comprovantes de renda?",
     "rendaAjuda": "Não há renda mínima. Você só precisa conseguir comprovar.",
+    "segurancaTitulo": "Sua moto, mais segura",
+    "rastreadorTexto": "A moto possui rastreador.",
+    "aplicativoTexto": "Você acompanha locação, contrato e avisos pelo aplicativo.",
+    "manutencaoAluguel": "No aluguel, a Locafort faz a troca de óleo a cada 1.000 km e a manutenção por desgaste natural.",
+    "manutencaoCompra": "No contrato com intenção de compra, troca de óleo e manutenção ficam por conta do cliente.",
     "documentoCnh": "CNH digital",
     "documentoEndereco": "3 comprovantes do endereço atual do mesmo tipo",
     "documentoGov": "Acesso à sua conta Gov.br",

@@ -5,8 +5,16 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#0b0b0e">
   <meta name="robots" content="index,follow">
-  <title>Consulta para aluguel de moto | Locafort Motos</title>
-  <meta name="description" content="Veja se pode alugar uma moto na Locafort em Fortaleza.">
+  <title>Consulta de locação de moto em Fortaleza | Locafort</title>
+  <meta name="description" content="Confira condições e faça a consulta de locação de moto da Locafort em Fortaleza, uma pergunta por vez.">
+  <link rel="canonical" href="https://locafortmotos.com.br/formulario/">
+  <meta property="og:title" content="Consulta de locação de moto em Fortaleza | Locafort">
+  <meta property="og:description" content="Confira as condições e veja se pode alugar uma moto na Locafort.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Locafort Motos">
+  <meta property="og:url" content="https://locafortmotos.com.br/formulario/">
+  <meta property="og:image" content="https://locafortmotos.com.br/assets/frota-locafort.jpeg">
+  <meta property="og:image:alt" content="Frota de motos da Locafort em Fortaleza">
   <link rel="stylesheet" href="../styles.css">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230b0b0d'/%3E%3Cpath d='M10 38h9l6-12h13l7 12h9' fill='none' stroke='%23e1262f' stroke-width='6'/%3E%3C/svg%3E">
 </head>
@@ -55,6 +63,13 @@
           <button class="question-listen" id="intentListen" type="button" hidden>🔊 Ouvir explicação</button>
           <div class="intent-explanation" id="intentInfoBody"></div>
           <button class="button button-primary payment-continue" id="intentContinue" type="button">Entendi, continuar <span>→</span></button>
+        </div>
+        <div class="simulator-step" id="simulatorCareInfo">
+          <p class="simulator-kicker">Segurança e cuidados</p>
+          <h3 id="careInfoTitle">Sua moto, mais segura</h3>
+          <button class="question-listen" id="careListen" type="button" hidden>🔊 Ouvir explicação</button>
+          <div class="care-cards" id="careInfoBody"></div>
+          <button class="button button-primary payment-continue" id="careContinue" type="button">Entendi, continuar <span>→</span></button>
         </div>
         <div class="simulator-step" id="simulatorQuestion">
           <p class="simulator-kicker" id="questionKicker"></p>
