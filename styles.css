@@ -203,3 +203,11 @@ body.simulator-open{overflow:hidden}.simulator-modal{position:fixed;z-index:1000
   .process-list li{grid-template-columns:46px 1fr;gap:12px}.process-list li>span{width:40px;height:40px}.process-list p{font-size:14px}
 }
 @media(prefers-reduced-motion:reduce){.simulator-options button,.model-options button,.payment-continue{transition:none}}
+
+/* v18 — recursos oficiais do aplicativo e envio orientado */
+.support-features{display:grid;gap:7px;margin:16px 0 0;padding:0;list-style:none}.support-features li{position:relative;padding:9px 10px 9px 31px;border:1px solid rgba(255,255,255,.3);border-radius:9px;background:rgba(0,0,0,.16);font-size:13px;font-weight:800}.support-features li:before{content:'✓';position:absolute;left:11px;color:#fff}
+.app-resource-list{display:flex!important;flex-wrap:wrap;gap:6px;margin-top:7px}.app-resource-list i{padding:5px 7px;border:1px solid #733238;border-radius:999px;background:#28171a;color:#f1d9db;font-size:10px;font-style:normal;font-weight:800}
+.result-next-step{display:grid;gap:4px;padding:13px;border:1px solid #3e6d4d;border-radius:11px;background:#14251a;color:#e5f5e9!important}.result-next-step strong{font-size:15px;color:#7aed9f}
+.result-documents{margin:11px 0;padding:14px;border:2px solid #4b4b55;border-radius:12px;background:#18181d}.result-documents h4{margin:0 0 10px;font-size:16px}.result-documents .document-list{margin-bottom:10px}.result-documents>p{margin:0;color:#d4d4d9;font-size:13px;line-height:1.5}
+.message-warning{margin:11px 0;padding:13px;border:2px solid #ff6269;border-radius:11px;background:#32171a;color:#fff;font-size:14px;line-height:1.5}.message-warning strong{display:block;margin-bottom:3px;color:#ff969b;font-size:15px}
+@media(max-width:620px){.support-features li{font-size:13px}.app-resource-list i{font-size:10px}.result-documents{padding:12px}.result-documents h4{font-size:16px}.message-warning{font-size:13px}}

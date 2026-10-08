@@ -30,13 +30,19 @@ export async function getCatalog(env, request) {
   const defaults = await fallbackCatalog(env, request);
   const saved = await env.LOCAFORT_CONFIG?.get('catalogo', 'json');
   if (!saved) return defaults;
+  const formulario = { ...defaults.formulario, ...(saved.formulario || {}) };
+  if (Number(saved.versao || 1) < 4) {
+    formulario.segurancaTitulo = defaults.formulario.segurancaTitulo;
+    formulario.rastreadorTexto = defaults.formulario.rastreadorTexto;
+    formulario.aplicativoTexto = defaults.formulario.aplicativoTexto;
+  }
   return {
     ...defaults,
     ...saved,
-    versao: 3,
+    versao: 4,
     condicoes: { ...defaults.condicoes, ...(saved.condicoes || {}) },
     site: { ...defaults.site, ...(saved.site || {}) },
-    formulario: { ...defaults.formulario, ...(saved.formulario || {}) },
+    formulario,
     produtos: (saved.produtos || defaults.produtos).map((item, index) => ({ cilindrada: '', uso: '', ...item, ordem: item.ordem || index + 1 }))
   };
 }

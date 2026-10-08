@@ -2,7 +2,7 @@
 
 O site funciona localmente com `catalogo-padrao.json`. Para que alterações feitas em `/painel/` apareçam para todos no site publicado, configure KV, R2 e os segredos abaixo no projeto do Cloudflare Pages.
 
-Na área **Formulário / condições**, também é possível editar os textos públicos de rastreador, aplicativo e responsabilidades de óleo e manutenção. Esses campos usam os padrões confirmados da Locafort e são validados antes de salvar.
+Na área **Formulário / condições**, também é possível editar os textos públicos de rastreamento e seguro, recursos do aplicativo e responsabilidades de óleo e manutenção. Os padrões atuais informam histórico de pagamentos, troca de óleo, vistoria e contrato. O schema v4 atualiza automaticamente instalações v3 para esses textos confirmados, preservando catálogo, mídia e demais configurações.
 
 ## 1. Criar e vincular o KV
 
