@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /painel/
+Disallow: /apresentacao/
 
 Sitemap: https://locafortmotos.com.br/sitemap.xml
