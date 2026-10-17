@@ -1,53 +1,77 @@
-const KEY='locafort-apresentacao-v4';
-const state={started:false,scene:0,modelId:'',intent:'',notes:false};
-let catalog,models=[],touch,idleTimer;
+const KEY='locafort-apresentacao-v26';
+const state={scene:0,modelId:''};
 const scenes=[...document.querySelectorAll('.scene')];
 const $=selector=>document.querySelector(selector);
+let catalog,showcase=[],touch;
+
 const money=(value,cents=false)=>Number(value).toLocaleString('pt-BR',{style:'currency',currency:'BRL',minimumFractionDigits:cents?2:0,maximumFractionDigits:cents?2:0});
-const path=value=>/^https:\/\//i.test(value)?value:`../${String(value).replace(/^\/+/, '')}`;
-const selected=()=>models.find(model=>model.id===state.modelId)||models[0];
-const price=model=>model.precoTipo==='sob-consulta'?'Valor sob consulta':`A partir de ${money(model.precoSemanal)} por semana`;
-function save(){try{sessionStorage.setItem(KEY,JSON.stringify(state))}catch(_){}}
-function load(){try{Object.assign(state,JSON.parse(sessionStorage.getItem(KEY))||{})}catch(_){}}
-async function getCatalog(){for(const url of ['../api/catalogo','../catalogo-padrao.json']){try{const response=await fetch(url);if(response.ok)return response.json()}catch(_){}}throw Error('Catálogo indisponível')}
-function renderSetup(){
-  const box=$('#setupCatalog');box.textContent='';
-  models.forEach(model=>{const button=document.createElement('button');button.type='button';button.className='setup-card';button.classList.toggle('selected',model.id===state.modelId);button.setAttribute('aria-pressed',model.id===state.modelId);button.innerHTML=`<img src="${path(model.imagem)}" alt="${model.nome}"><span><small>${[model.cilindrada,model.uso].filter(Boolean).join(' · ')}</small><strong>${model.nome}</strong><em>${price(model)}</em><i>${model.id===state.modelId?'Selecionada ✓':'Toque para escolher'}</i></span>`;button.onclick=()=>{state.modelId=model.id;renderSetup();save()};box.append(button)});
-  document.querySelectorAll('[data-intent]').forEach(button=>{const active=button.dataset.intent===state.intent;button.classList.toggle('selected',active);button.setAttribute('aria-pressed',active)});
-  $('#setupStart').disabled=!(state.modelId&&state.intent);
+const asset=value=>/^https:\/\//i.test(value)||String(value).startsWith('/api/')?value:`../${String(value).replace(/^\/+/, '')}`;
+const save=()=>{try{sessionStorage.setItem(KEY,JSON.stringify(state))}catch(_){}};
+const load=()=>{try{Object.assign(state,JSON.parse(sessionStorage.getItem(KEY))||{})}catch(_){}};
+async function loadCatalog(){const response=await fetch('../api/catalogo?source=kv',{headers:{Accept:'application/json'}});if(!response.ok)throw Error('Catálogo indisponível');return response.json()}
+
+function buildShowcase(){
+  showcase=(Array.isArray(catalog.produtos)?catalog.produtos:[])
+    .filter(product=>product&&product.ativo===true&&product.disponivel===true)
+    .sort((a,b)=>(Number(a.ordem)||0)-(Number(b.ordem)||0))
+    .map(product=>({id:String(product.id),name:String(product.nome),image:asset(product.imagem),imageNote:'',weekly:product.precoTipo==='sob-consulta'?null:Number(product.precoSemanal),weeklyType:product.precoTipo,label:[product.cilindrada,product.uso].filter(Boolean).join(' · ')||String(product.categoria),description:String(product.texto||'')}));
+  if(showcase.length&&!showcase.some(model=>model.id===state.modelId))state.modelId=showcase[0].id;
 }
-function renderValues(){
-  const conditions=catalog.condicoes;
-  $('#valueStrip').innerHTML=[['ALUGUEL',`A partir de ${money(conditions.semanalAPartirDe)}`,'Por semana.'],['CAUÇÃO',money(conditions.caucao),'Pode parcelar em até 12x na maquininha.'],['1ª COBRANÇA','2ª semana','O aluguel semanal começa depois da primeira semana.'],['CONTRATO INICIAL',`${conditions.mesesContratoInicial} meses`,'Período mínimo de aluguel.']].map(([label,value,detail])=>`<article><small>${label}</small><strong>${value}</strong><p>${detail}</p></article>`).join('');
-  $('#depositBase').textContent=money(conditions.caucao);
-  const purchase=state.intent==='Contrato com intenção de compra';
-  $('#futureNote').textContent=purchase?`Depois dos ${conditions.mesesContratoInicial} meses, pode optar pelo contrato com intenção de compra: ${money(conditions.intencaoCompraSemanal)} por semana durante ${conditions.intencaoCompraMeses} meses.`:`Depois dos ${conditions.mesesContratoInicial} meses iniciais, pode renovar o aluguel por mais ${conditions.mesesContratoInicial} meses.`;
+const currentModel=()=>showcase.find(model=>model.id===state.modelId)||showcase[0];
+const weeklyText=model=>model.weeklyType==='sob-consulta'||model.weekly===null?'Valor sob consulta':`A partir de ${money(model.weekly)}`;
+
+function renderCatalog(){
+  const container=$('#catalogShowcase');container.textContent='';
+  showcase.forEach(model=>{
+    const button=document.createElement('button');button.type='button';button.className='catalog-card';button.classList.toggle('selected',model.id===state.modelId);button.setAttribute('aria-pressed',model.id===state.modelId);
+    const cardPrice=model.weeklyType==='sob-consulta'||model.weekly===null?weeklyText(model):`${weeklyText(model)} por semana`;
+    const image=document.createElement('img');image.src=model.image;image.alt=model.name;
+    const copy=document.createElement('span');copy.className='catalog-card-copy';
+    const label=document.createElement('small');label.textContent=model.label;const name=document.createElement('strong');name.textContent=model.name;const price=document.createElement('em');price.textContent=cardPrice;const hint=document.createElement('i');hint.textContent='Toque para destacar';copy.append(label,name,price,hint);button.append(image,copy);
+    button.onclick=()=>{state.modelId=model.id;renderCatalog();personalize();save()};container.append(button);
+  });
+}
+
+function personalize(){
+  const model=currentModel(),conditions=catalog.condicoes,weekly=weeklyText(model),deposit=money(conditions.caucao);
+  [['#modelHeroImage',model.image],['#reviewedImage',model.image],['#tankImage',model.image],['#equipmentImage',model.image],['#closingImage',model.image]].forEach(([selector,source])=>{$(selector).src=source;$(selector).alt=model.name});
+  $('#modelHeroName').textContent=model.name;$('#modelHeroNote').textContent=model.imageNote;$('#weeklyHero').textContent=weekly;$('#weeklyModel').textContent=model.name;
+  $('#depositHero').textContent=deposit;$('#equipmentNote').textContent=model.imageNote;$('#closingModel').textContent=model.name;
+  const message=`Olá! Vi a apresentação da Locafort.\n\nMoto de interesse: ${model.name}\nValor mostrado: ${weekly} por semana\nInício: 6 meses de locação\n\nQuero fazer a análise inicial.`;
+  $('#whatsappLink').href=`https://wa.me/${catalog.site.whatsapp}?text=${encodeURIComponent(message)}`;
   updateSimulator();
 }
+
 function updateSimulator(){
   if(!catalog)return;
-  const base=Number(catalog.condicoes.caucao),count=Math.min(12,Math.max(1,Number($('#installments').value)||1)),raw=$('#machineRate').value.trim(),parsed=Number(raw.replace(',','.')),rate=raw===''||!Number.isFinite(parsed)||parsed<0?0:parsed,total=base*(1+rate/100),perInstallment=total/count;
-  $('#installmentsOutput').textContent=`${count}x`;$('#totalWithRate').textContent=money(total,true);$('#installmentValue').textContent=`${count}x de ${money(perInstallment,true)}`;
-  if(raw===''){ $('#rateNotice').textContent='Confirme a taxa atual da maquininha.';$('#rateFormula').textContent=`${money(base)} ÷ ${count} = ${money(base/count,true)}` }
-  else if(rate===0){ $('#rateNotice').textContent='Sem taxa informada.';$('#rateFormula').textContent=`${money(base)} ÷ ${count} = ${money(base/count,true)}` }
-  else{ $('#rateNotice').textContent=`Taxa total aplicada: ${rate.toLocaleString('pt-BR')}%.`;$('#rateFormula').textContent=`${money(base)} + ${rate.toLocaleString('pt-BR')}% = ${money(total,true)}; ÷ ${count} = ${money(perInstallment,true)}` }
+  const base=Number(catalog.condicoes.caucao),count=Math.max(1,Math.min(12,Number($('#installments').value)||1)),raw=$('#machineRate').value.trim(),parsed=Number(raw.replace(',','.')),rate=raw===''||!Number.isFinite(parsed)||parsed<0?0:parsed,total=base*(1+rate/100);
+  $('#installmentsOutput').textContent=`${count}x`;$('#totalWithRate').textContent=money(total,true);$('#installmentValue').textContent=`${count}x de ${money(total/count,true)}`;
+  $('#rateNotice').textContent=raw===''?'Confirme a taxa atual da maquininha.':rate===0?'Sem taxa informada.':`Taxa total aplicada: ${rate.toLocaleString('pt-BR')}%.`;
 }
-function personalize(){
-  const model=selected(),form=catalog.formulario,source=path(model.imagem),purchase=state.intent==='Contrato com intenção de compra',processSource=path(catalog.site.imagemProcesso||model.imagem);
-  [['#heroImage',source],['#useImage',source],['#careImage',source],['#closeImage',source],['#processImage',processSource]].forEach(([selector,src])=>{$(selector).src=src});
-  $('#heroImage').alt=model.nome;$('#useImage').alt=model.nome;$('#careImage').alt=model.nome;$('#closeImage').alt=model.nome;$('#heroModel').textContent=model.nome;$('#heroUse').textContent=model.uso||model.categoria||'SUA ROTINA';$('#catalogUse').textContent=`Indicação do catálogo: ${model.uso||model.texto||'consulte a equipe'}.`;
-  $('#rentalCare').textContent=form.manutencaoAluguel;$('#purchaseCareNote').hidden=!purchase;$('#purchaseCareNote').textContent=purchase?`Quando essa modalidade começar, ${form.manutencaoCompra.toLowerCase()}`:'';
-  renderValues();$('#closeModel').textContent=model.nome;$('#closeIntent').textContent=state.intent;
-  const message=`Olá! Vi a apresentação da Locafort.\n\nMoto: ${model.nome}\nInteresse: ${state.intent}\nValor mostrado: ${price(model)}\n\nGostaria de saber o próximo passo.`;
-  $('#closeWhatsapp').href=`https://wa.me/${catalog.site.whatsapp}?text=${encodeURIComponent(message)}`;
+
+function go(index){
+  if(!showcase.length)return;
+  state.scene=Math.max(0,Math.min(scenes.length-1,index));
+  scenes.forEach((scene,i)=>{scene.classList.toggle('active',i===state.scene);scene.setAttribute('aria-hidden',i!==state.scene)});
+  $('#sceneCount').textContent=`${String(state.scene+1).padStart(2,'0')} / ${String(scenes.length).padStart(2,'0')}`;
+  $('#previousScene').disabled=state.scene===0;$('#nextScene').disabled=state.scene===scenes.length-1;
+  if(state.scene!==4)$('#simulator').open=false;
+  save();
 }
-function note(){const panel=$('#sellerNote');panel.hidden=!state.notes;if(state.notes)panel.querySelector('p').textContent=scenes[state.scene].dataset.note||''}
-function activeControls(){const story=$('#story');story.classList.remove('controls-idle');clearTimeout(idleTimer);idleTimer=setTimeout(()=>story.classList.add('controls-idle'),2800)}
-function go(index){state.scene=Math.max(0,Math.min(scenes.length-1,index));scenes.forEach((scene,i)=>{scene.classList.toggle('active',i===state.scene);scene.setAttribute('aria-hidden',i!==state.scene)});$('#sceneCount').textContent=`${String(state.scene+1).padStart(2,'0')} / ${String(scenes.length).padStart(2,'0')}`;$('#previousScene').disabled=state.scene===0;$('#nextScene').disabled=state.scene===scenes.length-1;$('#utilityMenu').open=false;note();save();activeControls()}
-function begin(){state.started=true;state.scene=0;personalize();$('#setup').hidden=true;$('#story').hidden=false;go(0);save()}
-function setup(){state.started=false;$('#story').hidden=true;$('#setup').hidden=false;renderSetup();save()}
-function reset(){Object.assign(state,{started:false,scene:0,modelId:'',intent:'',notes:false});try{sessionStorage.removeItem(KEY)}catch(_){}setup()}
-document.querySelectorAll('[data-intent]').forEach(button=>button.onclick=()=>{state.intent=button.dataset.intent;renderSetup();save()});$('#setupStart').onclick=begin;$('#previousScene').onclick=()=>go(state.scene-1);$('#nextScene').onclick=()=>go(state.scene+1);$('#changeProfileButton').onclick=setup;$('#resetButton').onclick=reset;$('#brandReset').onclick=event=>{event.preventDefault();go(0)};$('#notesButton').onclick=()=>{state.notes=!state.notes;note();save();$('#utilityMenu').open=false};$('#installments').addEventListener('input',updateSimulator);$('#machineRate').addEventListener('input',updateSimulator);
-document.addEventListener('keydown',event=>{if(!state.started||['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName))return;if(event.key==='ArrowLeft')go(state.scene-1);if(event.key==='ArrowRight')go(state.scene+1)});document.addEventListener('pointermove',activeControls);document.addEventListener('touchstart',event=>{activeControls();if(state.started){const point=event.changedTouches[0];touch={x:point.clientX,y:point.clientY}}},{passive:true});document.addEventListener('touchend',event=>{if(!touch||!state.started)return;const point=event.changedTouches[0],dx=point.clientX-touch.x,dy=point.clientY-touch.y;touch=null;if(Math.abs(dx)>65&&Math.abs(dx)>Math.abs(dy)*1.4)go(state.scene+(dx<0?1:-1))},{passive:true});$('#story').addEventListener('click',event=>{if(event.target.closest('button,a,summary,details,input,label,output'))return;if(event.clientX<innerWidth/2)go(state.scene-1);else go(state.scene+1)});
+
+$('#previousScene').onclick=()=>go(state.scene-1);$('#nextScene').onclick=()=>go(state.scene+1);$('#homeButton').onclick=()=>go(0);
+$('#installments').addEventListener('input',updateSimulator);$('#machineRate').addEventListener('input',updateSimulator);
+document.addEventListener('keydown',event=>{if(['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName))return;if(event.key==='ArrowLeft')go(state.scene-1);if(event.key==='ArrowRight'||event.key===' ')go(state.scene+1)});
+const interactive='a,button,input,select,textarea,label,summary,details,.catalog-showcase';
+document.addEventListener('click',event=>{if(event.defaultPrevented||event.target.closest(interactive)||!showcase.length)return;go(state.scene+1)});
+document.addEventListener('touchstart',event=>{if(event.target.closest(interactive)){touch=null;return}const point=event.changedTouches[0];touch={x:point.clientX,y:point.clientY}},{passive:true});
+document.addEventListener('touchend',event=>{if(!touch)return;const point=event.changedTouches[0],dx=point.clientX-touch.x,dy=point.clientY-touch.y;touch=null;if(Math.abs(dx)>65&&Math.abs(dx)>Math.abs(dy)*1.4)go(state.scene+(dx<0?1:-1))},{passive:true});
 const fullscreen=$('#fullscreenButton');if(document.documentElement.requestFullscreen){fullscreen.hidden=false;fullscreen.onclick=async()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}
-(async()=>{load();try{catalog=await getCatalog();models=catalog.produtos.filter(product=>product.ativo&&product.disponivel).sort((a,b)=>a.ordem-b.ordem);if(!models.some(model=>model.id===state.modelId))state.modelId='';renderSetup();if(state.started&&state.modelId&&state.intent)begin();else setup()}catch(_){$('#setupStatus').textContent='Não foi possível carregar o catálogo.'}})();
+
+function showEmptyCatalog(){
+  showcase=[];state.scene=0;state.modelId='';
+  document.body.classList.add('catalog-empty-state');$('#catalogEmpty').hidden=false;$('#catalogShowcase').hidden=true;$('.scene-hint').hidden=true;
+  $('#previousScene').disabled=true;$('#nextScene').disabled=true;$('#deckStatus').textContent='Catálogo sem motos disponíveis.';$('#sceneCount').textContent='CATÁLOGO';
+}
+
+(async()=>{load();try{catalog=await loadCatalog();buildShowcase();if(!showcase.length)throw Error('Catálogo vazio');renderCatalog();personalize();go(state.scene)}catch(_){showEmptyCatalog()}})();
