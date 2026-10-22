@@ -15,7 +15,7 @@
   <meta property="og:image:alt" content="Frota de motos da Locafort em Fortaleza">
   <link rel="canonical" href="https://locafortmotos.com.br/">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230b0b0d'/%3E%3Cpath d='M10 38h9l6-12h13l7 12h9' fill='none' stroke='%23e1262f' stroke-width='6' stroke-linecap='round'/%3E%3Ccircle cx='18' cy='42' r='8' fill='none' stroke='white' stroke-width='4'/%3E%3Ccircle cx='48' cy='42' r='8' fill='none' stroke='white' stroke-width='4'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=27">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -95,21 +95,17 @@
       <div class="fleet-tabs" role="tablist" aria-label="Filtrar motos">
         <button class="active" data-filter="todas">Todas</button>
         <button data-filter="street">Street</button>
-        <button data-filter="scooter">Scooter</button>
+        <button data-filter="trail">Trail</button>
       </div>
       <p class="mobile-swipe-hint"><span>↔</span> Arraste para o lado e veja as motos</p>
       <div class="fleet-grid" id="catalogFleet">
         <article class="bike-card reveal" data-category="street">
-          <div class="bike-image"><img src="assets/moto-vermelha.jpeg" alt="Moto Honda 160 vermelha da Locafort" loading="lazy"><span>STREET</span></div>
-          <div class="bike-info"><div><p>Agilidade para o dia a dia</p><h3>Honda 160</h3></div><button class="bike-ask" data-moto="Honda 160 vermelha" aria-label="Consultar Honda 160 vermelha">↗</button></div>
+          <div class="bike-image"><img class="product-cutout" src="assets/honda-fan-2026-prata-catalogo.png" alt="Honda CG 160 Fan 2026 prata da Locafort" loading="lazy"><span>STREET</span></div>
+          <div class="bike-info"><div><p>Moto para trabalho e uso particular</p><h3>Honda CG 160 Fan 2026 — Prata</h3><small>Valor sob consulta</small></div><button class="bike-ask" data-moto="Honda CG 160 Fan 2026 prata" aria-label="Consultar Honda CG 160 Fan 2026 prata">↗</button></div>
         </article>
-        <article class="bike-card reveal" data-category="street">
-          <div class="bike-image"><img src="assets/moto-cinza.jpeg" alt="Moto Honda 160 cinza da Locafort" loading="lazy"><span>STREET</span></div>
-          <div class="bike-info"><div><p>Versátil para sua rotina</p><h3>Honda 160</h3></div><button class="bike-ask" data-moto="Honda 160 cinza" aria-label="Consultar Honda 160 cinza">↗</button></div>
-        </article>
-        <article class="bike-card reveal" data-category="scooter">
-          <div class="bike-image"><img src="assets/pcx-preta.jpeg" alt="Honda PCX preta da Locafort" loading="lazy"><span>SCOOTER</span></div>
-          <div class="bike-info"><div><p>Praticidade para se deslocar</p><h3>Honda PCX</h3></div><button class="bike-ask" data-moto="Honda PCX preta" aria-label="Consultar Honda PCX preta">↗</button></div>
+        <article class="bike-card reveal" data-category="trail">
+          <div class="bike-image"><img class="product-cutout" src="assets/yamaha-crosser-2027-vermelha.png" alt="Yamaha Crosser 2027 vermelha da Locafort" loading="lazy"><span>TRAIL</span></div>
+          <div class="bike-info"><div><p>Moto para trabalho e uso particular</p><h3>Yamaha Crosser 2027 — Vermelha</h3><small>Valor sob consulta</small></div><button class="bike-ask" data-moto="Yamaha Crosser 2027 vermelha" aria-label="Consultar Yamaha Crosser 2027 vermelha">↗</button></div>
         </article>
       </div>
       <a class="text-link reveal" data-open-simulator href="#simular-locacao">Ver se posso alugar <span>→</span></a>
@@ -155,9 +151,9 @@
         <h2>Mais autonomia começa com uma escolha.</h2>
       </div>
       <div class="stories-grid reveal">
-        <figure class="story story-wide"><img src="assets/cliente-retirada-pcx.jpeg" alt="Cliente na entrega de uma Honda PCX" loading="lazy"><figcaption><span>Entrega realizada</span><strong>PCX pronta para uma nova rotina.</strong></figcaption></figure>
+        <figure class="story story-wide"><img class="story-product" src="assets/yamaha-crosser-2027-vermelha.png" alt="Yamaha Crosser 2027 vermelha" loading="lazy"><figcaption><span>Modelo confirmado</span><strong>Yamaha Crosser 2027 — Vermelha.</strong></figcaption></figure>
         <figure class="story"><img src="assets/cliente-retirada-1.jpeg" alt="Clientes na Locafort Motos" loading="lazy"><figcaption><span>Locafort Motos</span><strong>Gente de verdade, planos em movimento.</strong></figcaption></figure>
-        <figure class="story"><img src="assets/moto-preta.jpeg" alt="Honda 160 preta na Locafort" loading="lazy"><figcaption><span>Frota</span><strong>Modelos para diferentes necessidades.</strong></figcaption></figure>
+        <figure class="story"><img class="story-product" src="assets/honda-fan-2026-prata-catalogo.png" alt="Honda CG 160 Fan 2026 prata" loading="lazy"><figcaption><span>Modelo confirmado</span><strong>Honda CG 160 Fan 2026 — Prata.</strong></figcaption></figure>
       </div>
     </section>
 
@@ -284,6 +280,6 @@
       </footer>
     </section>
   </div>
-  <script src="app.js"></script>
+  <script src="app.js?v=27"></script>
 </body>
 </html>

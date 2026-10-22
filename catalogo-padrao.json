@@ -1,5 +1,5 @@
 {
-  "versao": 4,
+  "versao": 5,
   "site": {
     "whatsapp": "5585989181727",
     "tituloPrincipal": "Aluguel de moto em Fortaleza",
@@ -42,13 +42,13 @@
   },
   "produtos": [
     {
-      "id": "honda-160",
-      "nome": "Honda 160",
+      "id": "honda-cg-160-fan-2026-prata",
+      "nome": "Honda CG 160 Fan 2026 — Prata",
       "categoria": "street",
-      "precoTipo": "a-partir-de",
-      "precoSemanal": 300,
-      "imagem": "assets/moto-vermelha.jpeg",
-      "texto": "Agilidade para o dia a dia",
+      "precoTipo": "sob-consulta",
+      "precoSemanal": null,
+      "imagem": "assets/honda-fan-2026-prata-catalogo.png",
+      "texto": "Moto para trabalho e uso particular",
       "cilindrada": "160 cc",
       "uso": "Trabalho e uso particular",
       "disponivel": true,
@@ -56,15 +56,15 @@
       "ordem": 1
     },
     {
-      "id": "honda-pcx",
-      "nome": "Honda PCX",
-      "categoria": "scooter",
+      "id": "yamaha-crosser-2027-vermelha",
+      "nome": "Yamaha Crosser 2027 — Vermelha",
+      "categoria": "trail",
       "precoTipo": "sob-consulta",
       "precoSemanal": null,
-      "imagem": "assets/pcx-preta.jpeg",
-      "texto": "Praticidade para se deslocar",
-      "cilindrada": "160 cc",
-      "uso": "Uso particular e cidade",
+      "imagem": "assets/yamaha-crosser-2027-vermelha.png",
+      "texto": "Moto para trabalho e uso particular",
+      "cilindrada": "",
+      "uso": "Trabalho e uso particular",
       "disponivel": true,
       "ativo": true,
       "ordem": 2

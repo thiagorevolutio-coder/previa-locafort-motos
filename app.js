@@ -40,7 +40,7 @@ function renderCatalog() {
     products.forEach(product => {
       const button = document.createElement('button');
       button.type = 'button'; button.dataset.productId = product.id; button.disabled = !product.disponivel;
-      const img = document.createElement('img'); img.src = imagePath(product.imagem); img.alt = product.nome;
+      const img = document.createElement('img'); img.src = imagePath(product.imagem); img.alt = product.nome; img.classList.toggle('product-cutout', /\.(?:png|webp)(?:$|\?)/i.test(product.imagem));
       const copy = document.createElement('span'); const name = document.createElement('strong'); name.textContent = product.nome;
       const price = document.createElement('small'); price.textContent = product.disponivel ? productPrice(product) : 'Indisponível no momento';
       const details = document.createElement('small'); details.className = 'product-meta'; details.textContent = [product.cilindrada, product.uso].filter(Boolean).join(' · ');
@@ -55,7 +55,7 @@ function renderCatalog() {
     products.forEach(product => {
       const card = document.createElement('article'); card.className = 'bike-card visible'; card.dataset.category = product.categoria;
       const image = document.createElement('div'); image.className = 'bike-image';
-      const img = document.createElement('img'); img.src = imagePath(product.imagem); img.alt = `${product.nome} da Locafort`; img.loading = 'lazy';
+      const img = document.createElement('img'); img.src = imagePath(product.imagem); img.alt = `${product.nome} da Locafort`; img.loading = 'lazy'; img.classList.toggle('product-cutout', /\.(?:png|webp)(?:$|\?)/i.test(product.imagem));
       const category = document.createElement('span'); category.textContent = product.categoria.toUpperCase(); image.append(img, category);
       const info = document.createElement('div'); info.className = 'bike-info';
       const text = document.createElement('div'); const description = document.createElement('p'); description.textContent = product.texto;

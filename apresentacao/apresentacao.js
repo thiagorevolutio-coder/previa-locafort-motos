@@ -1,4 +1,4 @@
-const KEY='locafort-apresentacao-v26';
+const KEY='locafort-apresentacao-v29';
 const state={scene:0,modelId:''};
 const scenes=[...document.querySelectorAll('.scene')];
 const $=selector=>document.querySelector(selector);
@@ -8,7 +8,11 @@ const money=(value,cents=false)=>Number(value).toLocaleString('pt-BR',{style:'cu
 const asset=value=>/^https:\/\//i.test(value)||String(value).startsWith('/api/')?value:`../${String(value).replace(/^\/+/, '')}`;
 const save=()=>{try{sessionStorage.setItem(KEY,JSON.stringify(state))}catch(_){}};
 const load=()=>{try{Object.assign(state,JSON.parse(sessionStorage.getItem(KEY))||{})}catch(_){}};
-async function loadCatalog(){const response=await fetch('../api/catalogo?source=kv',{headers:{Accept:'application/json'}});if(!response.ok)throw Error('Catálogo indisponível');return response.json()}
+async function loadCatalog(){
+  try{const response=await fetch('../api/catalogo?source=kv',{headers:{Accept:'application/json'}});if(response.ok)return response.json()}catch(_){}
+  if(['localhost','127.0.0.1',''].includes(location.hostname)||location.protocol==='file:'){const response=await fetch('../catalogo-padrao.json',{headers:{Accept:'application/json'}});if(response.ok)return response.json()}
+  throw Error('Catálogo indisponível')
+}
 
 function buildShowcase(){
   showcase=(Array.isArray(catalog.produtos)?catalog.produtos:[])
@@ -25,16 +29,23 @@ function renderCatalog(){
   showcase.forEach(model=>{
     const button=document.createElement('button');button.type='button';button.className='catalog-card';button.classList.toggle('selected',model.id===state.modelId);button.setAttribute('aria-pressed',model.id===state.modelId);
     const cardPrice=model.weeklyType==='sob-consulta'||model.weekly===null?weeklyText(model):`${weeklyText(model)} por semana`;
-    const image=document.createElement('img');image.src=model.image;image.alt=model.name;
+    const image=document.createElement('img');image.src=model.image;image.alt=model.name;image.classList.toggle('cutout-image',/\.(?:png|webp)(?:$|\?)/i.test(model.image));
     const copy=document.createElement('span');copy.className='catalog-card-copy';
     const label=document.createElement('small');label.textContent=model.label;const name=document.createElement('strong');name.textContent=model.name;const price=document.createElement('em');price.textContent=cardPrice;const hint=document.createElement('i');hint.textContent='Toque para destacar';copy.append(label,name,price,hint);button.append(image,copy);
     button.onclick=()=>{state.modelId=model.id;renderCatalog();personalize();save()};container.append(button);
   });
+  requestAnimationFrame(updateCatalogHint);
+}
+
+function updateCatalogHint(){
+  const container=$('#catalogShowcase'),hint=$('.scene-hint');
+  if(!container||!hint)return;
+  hint.hidden=container.scrollWidth<=container.clientWidth+1;
 }
 
 function personalize(){
   const model=currentModel(),conditions=catalog.condicoes,weekly=weeklyText(model),deposit=money(conditions.caucao);
-  [['#modelHeroImage',model.image],['#reviewedImage',model.image],['#tankImage',model.image],['#equipmentImage',model.image],['#closingImage',model.image]].forEach(([selector,source])=>{$(selector).src=source;$(selector).alt=model.name});
+  [['#modelHeroImage',model.image],['#reviewedImage',model.image],['#tankImage',model.image],['#equipmentImage',model.image],['#closingImage',model.image]].forEach(([selector,source])=>{const image=$(selector);image.src=source;image.alt=model.name;image.classList.toggle('cutout-image',/\.(?:png|webp)(?:$|\?)/i.test(source))});
   $('#modelHeroName').textContent=model.name;$('#modelHeroNote').textContent=model.imageNote;$('#weeklyHero').textContent=weekly;$('#weeklyModel').textContent=model.name;
   $('#depositHero').textContent=deposit;$('#equipmentNote').textContent=model.imageNote;$('#closingModel').textContent=model.name;
   const message=`Olá! Vi a apresentação da Locafort.\n\nMoto de interesse: ${model.name}\nValor mostrado: ${weekly} por semana\nInício: 6 meses de locação\n\nQuero fazer a análise inicial.`;
@@ -67,6 +78,7 @@ document.addEventListener('click',event=>{if(event.defaultPrevented||event.targe
 document.addEventListener('touchstart',event=>{if(event.target.closest(interactive)){touch=null;return}const point=event.changedTouches[0];touch={x:point.clientX,y:point.clientY}},{passive:true});
 document.addEventListener('touchend',event=>{if(!touch)return;const point=event.changedTouches[0],dx=point.clientX-touch.x,dy=point.clientY-touch.y;touch=null;if(Math.abs(dx)>65&&Math.abs(dx)>Math.abs(dy)*1.4)go(state.scene+(dx<0?1:-1))},{passive:true});
 const fullscreen=$('#fullscreenButton');if(document.documentElement.requestFullscreen){fullscreen.hidden=false;fullscreen.onclick=async()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}
+window.addEventListener('resize',updateCatalogHint,{passive:true});
 
 function showEmptyCatalog(){
   showcase=[];state.scene=0;state.modelId='';

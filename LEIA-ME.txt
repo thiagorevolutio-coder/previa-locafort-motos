@@ -12,6 +12,10 @@ Abra formulario/index.html
 CENTRAL DE CONTEÚDO:
 Abra painel/index.html. No computador local, funciona em modo demonstração e salva somente neste navegador. Leia CONFIGURAR-CENTRAL.md para configurar Cloudflare Pages, KV e R2.
 
+APRESENTAÇÃO PRESENCIAL INTERNA:
+Abra apresentacao/index.html ou use https://locafortmotos.com.br/apresentacao/ depois da publicação. Este endereço não aparece no site, na Bio ou no sitemap. Ele usa exclusivamente as motos ativas e disponíveis salvas na Central/KV. Sem catálogo configurado, orienta abrir o painel e não inicia os slides.
+A apresentação começa pelo catálogo visual e segue em 28 cenas curtas, uma por assunto. Toque em uma moto para destacá-la; use as setas laterais Voltar/Avançar, toque em uma área livre, teclado, swipe ou tela cheia. A cena da caução inclui simulador opcional em até 12 parcelas; informe apenas a taxa total exibida pela maquininha no momento da conversa.
+
 DOMÍNIO OFICIAL:
 Site: https://locafortmotos.com.br/
 Bio: https://locafortmotos.com.br/bio.html

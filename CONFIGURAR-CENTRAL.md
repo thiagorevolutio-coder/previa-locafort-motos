@@ -2,6 +2,8 @@
 
 O site funciona localmente com `catalogo-padrao.json`. Para que alterações feitas em `/painel/` apareçam para todos no site publicado, configure KV, R2 e os segredos abaixo no projeto do Cloudflare Pages.
 
+A apresentação interna em `/apresentacao/` consulta a mesma API e usa o mesmo fallback. Produtos, imagens, preços e condições salvos na Central também aparecem nela após a publicação.
+
 Na área **Formulário / condições**, também é possível editar os textos públicos de rastreamento e seguro, recursos do aplicativo e responsabilidades de óleo e manutenção. Os padrões atuais informam histórico de pagamentos, troca de óleo, vistoria e contrato. O schema v4 atualiza automaticamente instalações v3 para esses textos confirmados, preservando catálogo, mídia e demais configurações.
 
 ## 1. Criar e vincular o KV
@@ -55,3 +57,9 @@ Para testar também login e endpoints administrativos do mock, defina `LOCAFORT_
 
 O painel aceita upload, caminho relativo dentro de `assets/`, caminho gerado `/api/media/...` ou URL pública HTTPS. Se o binding R2 estiver ausente, o painel mostra a instrução para configurar `LOCAFORT_MEDIA` e mantém a mídia atual, sem impedir a edição dos demais campos.
 
+
+## Atualização do catálogo v5
+
+A versão 5 substitui automaticamente apenas os dois produtos padrão antigos reconhecidos pelos IDs `honda-160` e `honda-pcx`. Eles dão lugar a **Honda CG 160 Fan 2026 — Prata** e **Yamaha Crosser 2027 — Vermelha**. Produtos cadastrados pela equipe com outros IDs são preservados e aparecem depois dos novos padrões.
+
+A migração ocorre ao ler o catálogo antigo pela API e no painel. Para gravar a versão 5 definitivamente no KV, abra a Central, confira os dois modelos e use **Salvar alterações**. Ambos começam com preço **sob consulta**; informe valores específicos somente quando forem confirmados pela Locafort.

@@ -26,10 +26,22 @@ export async function fallbackCatalog(env, request) {
   return response.json();
 }
 
+const legacyDefaultProductIds = new Set(['honda-160', 'honda-pcx']);
+function migrateProducts(saved, defaults) {
+  const source = Array.isArray(saved.produtos) ? saved.produtos : defaults.produtos;
+  if (Number(saved.versao || 1) >= 5 || !source.some(item => legacyDefaultProductIds.has(item.id))) return source;
+  const replacementIds = new Set(defaults.produtos.map(item => item.id));
+  const custom = source.filter(item => !legacyDefaultProductIds.has(item.id) && !replacementIds.has(item.id));
+  return [...defaults.produtos, ...custom.map((item, index) => ({ ...item, ordem: defaults.produtos.length + index + 1 }))];
+}
+
 export async function getCatalog(env, request) {
   const defaults = await fallbackCatalog(env, request);
   const saved = await env.LOCAFORT_CONFIG?.get('catalogo', 'json');
-  if (!saved) return defaults;
+  if (!saved) {
+    if (new URL(request.url).searchParams.get('source') === 'kv') throw new Error('Catálogo KV indisponível');
+    return defaults;
+  }
   const formulario = { ...defaults.formulario, ...(saved.formulario || {}) };
   if (Number(saved.versao || 1) < 4) {
     formulario.segurancaTitulo = defaults.formulario.segurancaTitulo;
@@ -39,11 +51,11 @@ export async function getCatalog(env, request) {
   return {
     ...defaults,
     ...saved,
-    versao: 4,
+    versao: 5,
     condicoes: { ...defaults.condicoes, ...(saved.condicoes || {}) },
     site: { ...defaults.site, ...(saved.site || {}) },
     formulario,
-    produtos: (saved.produtos || defaults.produtos).map((item, index) => ({ cilindrada: '', uso: '', ...item, ordem: item.ordem || index + 1 }))
+    produtos: migrateProducts(saved, defaults).map((item, index) => ({ cilindrada: '', uso: '', ...item, ordem: item.ordem || index + 1 }))
   };
 }
 
