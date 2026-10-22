@@ -1,4 +1,4 @@
-const KEY='locafort-apresentacao-v29';
+const KEY='locafort-apresentacao-v30';
 const state={scene:0,modelId:''};
 const scenes=[...document.querySelectorAll('.scene')];
 const $=selector=>document.querySelector(selector);
