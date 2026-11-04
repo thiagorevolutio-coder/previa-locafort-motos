@@ -1,37 +1,52 @@
-const KEY='locafort-apresentacao-v30';
-const state={scene:0,modelId:''};
-const scenes=[...document.querySelectorAll('.scene')];
+const KEY='locafort-apresentacao-v31';
+const state={scene:0,modelId:'',route:''};
+const allScenes=[...document.querySelectorAll('.scene')];
+let scenes=[],catalog,showcase=[],touch,navLocked=false;
 const $=selector=>document.querySelector(selector);
-let catalog,showcase=[],touch;
 
 const money=(value,cents=false)=>Number(value).toLocaleString('pt-BR',{style:'currency',currency:'BRL',minimumFractionDigits:cents?2:0,maximumFractionDigits:cents?2:0});
-const asset=value=>/^https:\/\//i.test(value)||String(value).startsWith('/api/')?value:`../${String(value).replace(/^\/+/, '')}`;
+const asset=value=>/^https?:\/\//i.test(value)||String(value).startsWith('/api/')?value:`../${String(value).replace(/^\/+/, '')}`;
 const save=()=>{try{sessionStorage.setItem(KEY,JSON.stringify(state))}catch(_){}};
 const load=()=>{try{Object.assign(state,JSON.parse(sessionStorage.getItem(KEY))||{})}catch(_){}};
+
 async function loadCatalog(){
   try{const response=await fetch('../api/catalogo?source=kv',{headers:{Accept:'application/json'}});if(response.ok)return response.json()}catch(_){}
   if(['localhost','127.0.0.1',''].includes(location.hostname)||location.protocol==='file:'){const response=await fetch('../catalogo-padrao.json',{headers:{Accept:'application/json'}});if(response.ok)return response.json()}
-  throw Error('Catálogo indisponível')
+  throw Error('Catálogo indisponível');
 }
 
 function buildShowcase(){
   showcase=(Array.isArray(catalog.produtos)?catalog.produtos:[])
     .filter(product=>product&&product.ativo===true&&product.disponivel===true)
     .sort((a,b)=>(Number(a.ordem)||0)-(Number(b.ordem)||0))
-    .map(product=>({id:String(product.id),name:String(product.nome),image:asset(product.imagem),imageNote:'',weekly:product.precoTipo==='sob-consulta'?null:Number(product.precoSemanal),weeklyType:product.precoTipo,label:[product.cilindrada,product.uso].filter(Boolean).join(' · ')||String(product.categoria),description:String(product.texto||'')}));
+    .map(product=>({id:String(product.id),name:String(product.nome),image:asset(product.imagem),weekly:product.precoTipo==='sob-consulta'?null:Number(product.precoSemanal),weeklyType:product.precoTipo,label:[product.cilindrada,product.uso].filter(Boolean).join(' · ')||String(product.categoria)}));
   if(showcase.length&&!showcase.some(model=>model.id===state.modelId))state.modelId=showcase[0].id;
 }
+
 const currentModel=()=>showcase.find(model=>model.id===state.modelId)||showcase[0];
 const weeklyText=model=>model.weeklyType==='sob-consulta'||model.weekly===null?'Valor sob consulta':`A partir de ${money(model.weekly)}`;
+
+function buildScenes(){
+  scenes=allScenes.filter(scene=>{
+    if(scene.dataset.stage)return true;
+    if(!state.route)return false;
+    return scene.dataset.path==='shared'||scene.dataset.path===state.route;
+  });
+  allScenes.forEach(scene=>{if(!scenes.includes(scene)){scene.classList.remove('active');scene.setAttribute('aria-hidden','true')}});
+  state.scene=Math.max(0,Math.min(scenes.length-1,state.scene));
+}
 
 function renderCatalog(){
   const container=$('#catalogShowcase');container.textContent='';
   showcase.forEach(model=>{
     const button=document.createElement('button');button.type='button';button.className='catalog-card';button.classList.toggle('selected',model.id===state.modelId);button.setAttribute('aria-pressed',model.id===state.modelId);
-    const cardPrice=model.weeklyType==='sob-consulta'||model.weekly===null?weeklyText(model):`${weeklyText(model)} por semana`;
     const image=document.createElement('img');image.src=model.image;image.alt=model.name;image.classList.toggle('cutout-image',/\.(?:png|webp)(?:$|\?)/i.test(model.image));
     const copy=document.createElement('span');copy.className='catalog-card-copy';
-    const label=document.createElement('small');label.textContent=model.label;const name=document.createElement('strong');name.textContent=model.name;const price=document.createElement('em');price.textContent=cardPrice;const hint=document.createElement('i');hint.textContent='Toque para destacar';copy.append(label,name,price,hint);button.append(image,copy);
+    const label=document.createElement('small');label.textContent=model.label;
+    const name=document.createElement('strong');name.textContent=model.name;
+    const price=document.createElement('em');price.textContent=model.weeklyType==='sob-consulta'||model.weekly===null?weeklyText(model):`${weeklyText(model)} por semana`;
+    const hint=document.createElement('i');hint.textContent='Toque para selecionar';
+    copy.append(label,name,price,hint);button.append(image,copy);
     button.onclick=()=>{state.modelId=model.id;renderCatalog();personalize();save()};container.append(button);
   });
   requestAnimationFrame(updateCatalogHint);
@@ -40,43 +55,60 @@ function renderCatalog(){
 function updateCatalogHint(){
   const container=$('#catalogShowcase'),hint=$('.scene-hint');
   if(!container||!hint)return;
-  hint.hidden=container.scrollWidth<=container.clientWidth+1;
+  hint.textContent=container.scrollWidth>container.clientWidth+1?'Deslize, selecione a moto e avance.':'Selecione a moto e avance.';
 }
 
 function personalize(){
-  const model=currentModel(),conditions=catalog.condicoes,weekly=weeklyText(model),deposit=money(conditions.caucao);
-  [['#modelHeroImage',model.image],['#reviewedImage',model.image],['#tankImage',model.image],['#equipmentImage',model.image],['#closingImage',model.image]].forEach(([selector,source])=>{const image=$(selector);image.src=source;image.alt=model.name;image.classList.toggle('cutout-image',/\.(?:png|webp)(?:$|\?)/i.test(source))});
-  $('#modelHeroName').textContent=model.name;$('#modelHeroNote').textContent=model.imageNote;$('#weeklyHero').textContent=weekly;$('#weeklyModel').textContent=model.name;
-  $('#depositHero').textContent=deposit;$('#equipmentNote').textContent=model.imageNote;$('#closingModel').textContent=model.name;
-  const message=`Olá! Vi a apresentação da Locafort.\n\nMoto de interesse: ${model.name}\nValor mostrado: ${weekly} por semana\nInício: 6 meses de locação\n\nQuero fazer a análise inicial.`;
+  const model=currentModel(),weekly=weeklyText(model);
+  ['#modelHeroImage','#reviewedImage','#tankImage','#equipmentImage','#closingImage'].forEach(selector=>{const image=$(selector);image.src=model.image;image.alt=model.name;image.classList.toggle('cutout-image',/\.(?:png|webp)(?:$|\?)/i.test(model.image))});
+  $('#modelHeroName').textContent=model.name;
+  $('#weeklyHero').textContent=weekly;
+  $('#weeklyModel').textContent=model.name;
+  $('#closingModel').textContent=model.name;
+  $('#modelPathNote').textContent=state.route==='purchase'?'Este roteiro explica somente a intenção de compra.':'Este roteiro explica somente a locação.';
+  const routeText=state.route==='purchase'?'Intenção de compra':'Locação';
+  const message=`Olá! Vi a apresentação da Locafort.\n\nMoto de interesse: ${model.name}\nCaminho: ${routeText}\nValor mostrado: ${weekly} por semana\n\nQuero fazer a análise inicial.`;
   $('#whatsappLink').href=`https://wa.me/${catalog.site.whatsapp}?text=${encodeURIComponent(message)}`;
-  updateSimulator();
 }
 
-function updateSimulator(){
-  if(!catalog)return;
-  const base=Number(catalog.condicoes.caucao),count=Math.max(1,Math.min(12,Number($('#installments').value)||1)),raw=$('#machineRate').value.trim(),parsed=Number(raw.replace(',','.')),rate=raw===''||!Number.isFinite(parsed)||parsed<0?0:parsed,total=base*(1+rate/100);
-  $('#installmentsOutput').textContent=`${count}x`;$('#totalWithRate').textContent=money(total,true);$('#installmentValue').textContent=`${count}x de ${money(total/count,true)}`;
-  $('#rateNotice').textContent=raw===''?'Confirme a taxa atual da maquininha.':rate===0?'Sem taxa informada.':`Taxa total aplicada: ${rate.toLocaleString('pt-BR')}%.`;
+function updateHeader(){
+  const labels={rental:'LOCAÇÃO',purchase:'INTENÇÃO DE COMPRA'};
+  const current=scenes[state.scene];
+  $('#routeLabel').textContent=current?.dataset.stage?'APRESENTAÇÃO':(state.route?labels[state.route]:'APRESENTAÇÃO');
 }
 
 function go(index){
   if(!showcase.length)return;
   state.scene=Math.max(0,Math.min(scenes.length-1,index));
-  scenes.forEach((scene,i)=>{scene.classList.toggle('active',i===state.scene);scene.setAttribute('aria-hidden',i!==state.scene)});
+  const current=scenes[state.scene];
+  allScenes.forEach(scene=>{const active=scene===current;scene.classList.toggle('active',active);scene.setAttribute('aria-hidden',String(!active))});
   $('#sceneCount').textContent=`${String(state.scene+1).padStart(2,'0')} / ${String(scenes.length).padStart(2,'0')}`;
-  $('#previousScene').disabled=state.scene===0;$('#nextScene').disabled=state.scene===scenes.length-1;
-  if(state.scene!==4)$('#simulator').open=false;
-  save();
+  $('#previousScene').disabled=state.scene===0;
+  $('#nextScene').disabled=state.scene===scenes.length-1||(current.dataset.stage==='route'&&!state.route);
+  updateHeader();save();
 }
 
-$('#previousScene').onclick=()=>go(state.scene-1);$('#nextScene').onclick=()=>go(state.scene+1);$('#homeButton').onclick=()=>go(0);
-$('#installments').addEventListener('input',updateSimulator);$('#machineRate').addEventListener('input',updateSimulator);
-document.addEventListener('keydown',event=>{if(['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName))return;if(event.key==='ArrowLeft')go(state.scene-1);if(event.key==='ArrowRight'||event.key===' ')go(state.scene+1)});
+function chooseRoute(route){
+  state.route=route;
+  state.scene=2;
+  buildScenes();personalize();go(2);
+}
+
+function step(delta){
+  if(navLocked)return;
+  navLocked=true;
+  go(state.scene+delta);
+  window.setTimeout(()=>{navLocked=false},450);
+}
+
+document.querySelectorAll('[data-route-choice]').forEach(button=>button.addEventListener('click',()=>chooseRoute(button.dataset.routeChoice)));
+$('#previousScene').onclick=event=>{event.stopPropagation();step(-1)};
+$('#nextScene').onclick=event=>{event.stopPropagation();step(1)};
+$('#homeButton').onclick=()=>{state.scene=0;go(0)};
+document.addEventListener('keydown',event=>{if(['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName))return;if(event.key==='ArrowLeft')step(-1);if(event.key==='ArrowRight'||event.key===' ')step(1)});
 const interactive='a,button,input,select,textarea,label,summary,details,.catalog-showcase';
-document.addEventListener('click',event=>{if(event.defaultPrevented||event.target.closest(interactive)||!showcase.length)return;go(state.scene+1)});
 document.addEventListener('touchstart',event=>{if(event.target.closest(interactive)){touch=null;return}const point=event.changedTouches[0];touch={x:point.clientX,y:point.clientY}},{passive:true});
-document.addEventListener('touchend',event=>{if(!touch)return;const point=event.changedTouches[0],dx=point.clientX-touch.x,dy=point.clientY-touch.y;touch=null;if(Math.abs(dx)>65&&Math.abs(dx)>Math.abs(dy)*1.4)go(state.scene+(dx<0?1:-1))},{passive:true});
+document.addEventListener('touchend',event=>{if(!touch)return;const point=event.changedTouches[0],dx=point.clientX-touch.x,dy=point.clientY-touch.y;touch=null;if(Math.abs(dx)>65&&Math.abs(dx)>Math.abs(dy)*1.4)step(dx<0?1:-1)},{passive:true});
 const fullscreen=$('#fullscreenButton');if(document.documentElement.requestFullscreen){fullscreen.hidden=false;fullscreen.onclick=async()=>document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}
 window.addEventListener('resize',updateCatalogHint,{passive:true});
 
@@ -86,4 +118,4 @@ function showEmptyCatalog(){
   $('#previousScene').disabled=true;$('#nextScene').disabled=true;$('#deckStatus').textContent='Catálogo sem motos disponíveis.';$('#sceneCount').textContent='CATÁLOGO';
 }
 
-(async()=>{load();try{catalog=await loadCatalog();buildShowcase();if(!showcase.length)throw Error('Catálogo vazio');renderCatalog();personalize();go(state.scene)}catch(_){showEmptyCatalog()}})();
+(async()=>{load();if(!['rental','purchase'].includes(state.route))state.route='';try{catalog=await loadCatalog();buildShowcase();if(!showcase.length)throw Error('Catálogo vazio');buildScenes();renderCatalog();personalize();go(state.scene)}catch(_){showEmptyCatalog()}})();
