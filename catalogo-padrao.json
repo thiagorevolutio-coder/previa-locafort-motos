@@ -1,5 +1,5 @@
 {
-  "versao": 5,
+  "versao": 6,
   "site": {
     "whatsapp": "5585989181727",
     "tituloPrincipal": "Aluguel de moto em Fortaleza",
@@ -56,18 +56,32 @@
       "ordem": 1
     },
     {
-      "id": "yamaha-crosser-2027-vermelha",
-      "nome": "Yamaha Crosser 2027 — Vermelha",
-      "categoria": "trail",
+      "id": "yamaha-nmax-2022-azul",
+      "nome": "Yamaha NMAX 2022 — Azul",
+      "categoria": "scooter",
       "precoTipo": "sob-consulta",
       "precoSemanal": null,
-      "imagem": "assets/yamaha-crosser-2027-vermelha.png",
+      "imagem": "assets/yamaha-nmax-2022-azul.jpeg",
       "texto": "Moto para trabalho e uso particular",
-      "cilindrada": "",
+      "cilindrada": "160 cc",
       "uso": "Trabalho e uso particular",
       "disponivel": true,
       "ativo": true,
       "ordem": 2
+    },
+    {
+      "id": "yamaha-fazer-150-2021-cinza",
+      "nome": "Yamaha Fazer 150 2021 — Cinza",
+      "categoria": "street",
+      "precoTipo": "sob-consulta",
+      "precoSemanal": null,
+      "imagem": "assets/yamaha-fazer-150-2021-cinza.jpeg",
+      "texto": "Moto para trabalho e uso particular",
+      "cilindrada": "150 cc",
+      "uso": "Trabalho e uso particular",
+      "disponivel": true,
+      "ativo": true,
+      "ordem": 3
     }
   ]
 }
