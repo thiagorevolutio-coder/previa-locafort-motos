@@ -58,8 +58,8 @@ Para testar também login e endpoints administrativos do mock, defina `LOCAFORT_
 O painel aceita upload, caminho relativo dentro de `assets/`, caminho gerado `/api/media/...` ou URL pública HTTPS. Se o binding R2 estiver ausente, o painel mostra a instrução para configurar `LOCAFORT_MEDIA` e mantém a mídia atual, sem impedir a edição dos demais campos.
 
 
-## Atualização do catálogo v6
+## Atualização do catálogo v7
 
-A versão 6 substitui os antigos produtos padrão reconhecidos pelos IDs `honda-160`, `honda-pcx` e `yamaha-crosser-2027-vermelha`. O catálogo padrão passa a mostrar **Honda CG 160 Fan 2026 — Prata**, **Yamaha NMAX 2022 — Azul** e **Yamaha Fazer 150 2021 — Cinza**. Produtos cadastrados pela equipe com outros IDs são preservados e aparecem depois dos novos padrões.
+A versão 7 substitui os antigos produtos padrão reconhecidos pelos IDs `honda-160`, `honda-pcx`, `yamaha-crosser-2027-vermelha` e `honda-cg-160-fan-2026-prata`. O catálogo padrão passa a mostrar somente **Yamaha NMAX 2022 — Azul** e **Yamaha Fazer 150 2021 — Cinza**. Produtos cadastrados pela equipe com outros IDs são preservados e aparecem depois dos novos padrões.
 
-A migração ocorre ao ler o catálogo antigo pela API e no painel. Para gravar a versão 6 definitivamente no KV, abra a Central, confira os três modelos e use **Salvar alterações**. Eles começam com preço **sob consulta**; informe valores específicos somente quando forem confirmados pela Locafort.
+A migração ocorre ao ler o catálogo antigo pela API e no painel. Para gravar a versão 7 definitivamente no KV, abra a Central, confira os dois modelos e use **Salvar alterações**. Eles começam com preço **sob consulta**; informe valores específicos somente quando forem confirmados pela Locafort.

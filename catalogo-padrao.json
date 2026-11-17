@@ -1,5 +1,5 @@
 {
-  "versao": 6,
+  "versao": 7,
   "site": {
     "whatsapp": "5585989181727",
     "tituloPrincipal": "Aluguel de moto em Fortaleza",
@@ -42,20 +42,6 @@
   },
   "produtos": [
     {
-      "id": "honda-cg-160-fan-2026-prata",
-      "nome": "Honda CG 160 Fan 2026 — Prata",
-      "categoria": "street",
-      "precoTipo": "sob-consulta",
-      "precoSemanal": null,
-      "imagem": "assets/honda-fan-2026-prata-catalogo.png",
-      "texto": "Moto para trabalho e uso particular",
-      "cilindrada": "160 cc",
-      "uso": "Trabalho e uso particular",
-      "disponivel": true,
-      "ativo": true,
-      "ordem": 1
-    },
-    {
       "id": "yamaha-nmax-2022-azul",
       "nome": "Yamaha NMAX 2022 — Azul",
       "categoria": "scooter",
@@ -67,7 +53,7 @@
       "uso": "Trabalho e uso particular",
       "disponivel": true,
       "ativo": true,
-      "ordem": 2
+      "ordem": 1
     },
     {
       "id": "yamaha-fazer-150-2021-cinza",
@@ -81,7 +67,7 @@
       "uso": "Trabalho e uso particular",
       "disponivel": true,
       "ativo": true,
-      "ordem": 3
+      "ordem": 2
     }
   ]
 }

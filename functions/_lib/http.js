@@ -26,10 +26,10 @@ export async function fallbackCatalog(env, request) {
   return response.json();
 }
 
-const legacyDefaultProductIds = new Set(['honda-160', 'honda-pcx', 'yamaha-crosser-2027-vermelha']);
+const legacyDefaultProductIds = new Set(['honda-160', 'honda-pcx', 'yamaha-crosser-2027-vermelha', 'honda-cg-160-fan-2026-prata']);
 function migrateProducts(saved, defaults) {
   const source = Array.isArray(saved.produtos) ? saved.produtos : defaults.produtos;
-  if (Number(saved.versao || 1) >= 6) return source;
+  if (Number(saved.versao || 1) >= 7) return source;
   const replacementIds = new Set(defaults.produtos.map(item => item.id));
   const custom = source.filter(item => !legacyDefaultProductIds.has(item.id) && !replacementIds.has(item.id));
   return [...defaults.produtos, ...custom.map((item, index) => ({ ...item, ordem: defaults.produtos.length + index + 1 }))];
@@ -51,7 +51,7 @@ export async function getCatalog(env, request) {
   return {
     ...defaults,
     ...saved,
-    versao: 6,
+    versao: 7,
     condicoes: { ...defaults.condicoes, ...(saved.condicoes || {}) },
     site: { ...defaults.site, ...(saved.site || {}) },
     formulario,
